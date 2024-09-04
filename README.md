@@ -1,4 +1,4 @@
-# mona-nvim
+# mona.nvim
 
 A set of `elixir` extensions and configuration for [neovim](https://neovim.io/)!
 

@@ -1,10 +1,4 @@
-return function()
-  local project_directory = require('mona.directories').project_directory()
-
-  if not project_directory then
-    return false
-  end
-
+return function(opts)
   local config = require('telescope.config')
   local finders = require('telescope.finders')
   local pickers = require('telescope.pickers')
@@ -13,12 +7,10 @@ return function()
 
   return pickers
     :new({
-      prompt_title = ' Project Modules',
+      prompt_title = opts.prompt_title,
 
       finder = finders.new_oneshot_job(
-        require('mona.ripgrep.args.elixir')
-          .project_modules(project_directory)
-          :with_rg_command(),
+        opts.ripgrep_args,
         {
           entry_maker = function(entry)
             local module = require('mona.ripgrep.results.elixir').module(entry)
