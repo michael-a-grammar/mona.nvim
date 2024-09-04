@@ -1,0 +1,294 @@
+*mona.nvim*            For NVIM v0.10.0           Last change: 2024 October 11
+
+==============================================================================
+Contents                                                       *mona.contents*
+
+- Introduction                                             |mona.introduction|
+- Features                                                     |mona.features|
+- Install                                                       |mona.install|
+- Telescope Pickers                                   |mona.telescope-pickers|
+
+
+==============================================================================
+INTRODUCTION                                               *mona.introduction*
+
+A set of `elixir` extensions and configuration for neovim!
+
+Please note that this is not a replacement for the various LSP implementations
+available for `elixir`; it is solely some goodies that I find nice when
+programming with my favourite language in my favourite editor
+
+As `mona` doesn’t use any fancy LSP shenanigans, it is blindingly fast (thanks
+to `ripgrep`!) but may prove to be naive in implementation
+
+We rely on regular expressions and conventions in order to work things out -
+if you consider using `mona`, please report any inconsistencies!
+
+==============================================================================
+FEATURES                                                       *mona.features*
+
+Browse project, `umbrella` application and buffer directory modules and tests
+using telescope! <https://github.com/nvim-telescope/telescope.nvim>
+
+==============================================================================
+INSTALL                                                         *mona.install*
+
+Requires `ripgrep` <https://github.com/BurntSushi/ripgrep>
+
+Using `lazy.nvim` <https://github.com/folke/lazy.nvim>, here is an example
+plugin spec utilising lazy loading and filetype-specific keymaps
+
+>lua
+    return {
+      'michael-a-grammar/mona.nvim',
+    
+      ft = 'elixir',
+    
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        'nvim-telescope/telescope.nvim',
+      },
+    
+      keys = {
+        {
+          '<localleader>mm',
+          function()
+            require('telescope').extensions.mona.pickers()
+          end,
+          desc = 'Browse Pickers',
+          ft = 'elixir',
+          mode = { 'n', 'x' },
+        },
+    
+        {
+          '<localleader>mp',
+          function()
+            require('telescope').extensions.mona.elixir_project_modules()
+          end,
+          desc = 'Browse Project Modules',
+          ft = 'elixir',
+          mode = { 'n', 'x' },
+        },
+    
+        {
+          '<localleader>ma',
+          function()
+            require('telescope').extensions.mona.elixir_application_modules()
+          end,
+          desc = 'Browse Application Modules',
+          ft = 'elixir',
+          mode = { 'n', 'x' },
+        },
+    
+        {
+          '<localleader>mb',
+          function()
+            require('telescope').extensions.mona.elixir_buffer_directory_modules()
+          end,
+          desc = 'Browse Buffer Directory Modules',
+          ft = 'elixir',
+          mode = { 'n', 'x' },
+        },
+    
+        {
+          '<localleader>mtp',
+          function()
+            require('telescope').extensions.mona.elixir_project_tests()
+          end,
+          desc = 'Browse Project Tests',
+          ft = 'elixir',
+          mode = { 'n', 'x' },
+        },
+    
+        {
+          '<localleader>mta',
+          function()
+            require('telescope').extensions.mona.elixir_application_tests()
+          end,
+          desc = 'Browse Application Tests',
+          ft = 'elixir',
+          mode = { 'n', 'x' },
+        },
+    
+        {
+          '<localleader>mtb',
+          function()
+            require('telescope').extensions.mona.elixir_buffer_directory_tests()
+          end,
+          desc = 'Browse Buffer Directory Tests',
+          ft = 'elixir',
+          mode = { 'n', 'x' },
+        },
+      }
+    }
+<
+
+Next, add the following to your `telescope` plugin spec to load the `mona`
+`telescope` extension
+
+>lua
+    return {
+      'nvim-telescope/telescope.nvim',
+    
+      ...
+    
+      config = function(_, opts)
+       local telescope = require('telescope')
+    
+        ...
+    
+        telescope.load_extension('mona')
+      end
+    }
+<
+
+`mona` also supports `telescope`-specific configuration being set as a part of
+the `telescope` plugin spec
+
+Here is an example that changes the default theme of all the `telescope`
+pickers exposed by `mona`
+
+>lua
+    return {
+      'nvim-telescope/telescope.nvim',
+    
+      ...
+    
+      opts = {
+        defaults = {
+          mappings = {
+            ...
+          },
+          
+          extensions = {
+            mona = {
+              theme = 'dropdown',
+            },
+          },
+        },
+      },
+    }
+
+
+You can also pass such configuration directly into the function call of a
+relevant picker like so
+
+>lua
+    require('telescope').extensions.mona.elixir_project_modules(
+      require('telescope.themes').get_dropdown({
+        ...
+      })
+    )
+<
+
+==============================================================================
+TELESCOPE PICKERS                                     *mona.telescope-pickers*
+
+`mona` exposes the following `telescope` pickers, each relying on convention
+to find relevant results, disclosed below
+
+`pickers``(`{opts}`)`                      *telescope.extensions.mona.pickers*
+    A picker which lists all of the below pickers
+
+    Parameters: ~
+      {opts} (table)  Picker configuration
+		      Please see |telescope.nvim| for more details
+
+                            *telescope.extensions.mona.elixir_project_modules* 
+`elixir_project_modules``(`{opts}`)`
+    Displays modules (excluding tests and scripts) within the current project
+    directory
+
+    To discern the root, project directory, we attempt to find a .git
+    directory by searching upwards through the directory tree starting from
+    the current working directory
+
+    We relay an error message if a .git directory cannot be found
+
+    Within the directory that the .git directory is found, we check for the
+    existence of a mix.exs file
+
+    From here, a simple `ripgrep` query is launched to populate a `telescope`
+    picker with every descendant .ex file that contains one or more module
+    definitions
+    
+    Parameters: ~
+      {opts} (table)  Picker configuration
+		      Please see |telescope.nvim| for more details
+
+                        *telescope.extensions.mona.elixir_application_modules*
+`elixir_application_modules``(`{opts}`)`
+    Displays modules (excluding tests and scripts) within the current
+    `umbrella` application directory
+
+    To discern the application directory, we attempt to find a mix.exs file
+    by searching upwards through the directory tree starting from the current
+    buffer directory
+
+    We relay an error message if a mix.exs file cannot be found or if the
+    found mix.exs file is located within the project directory
+
+    From here, a simple `ripgrep` query is launched to populate a `telescope`
+    picker with every descendant .ex file that contains one or more module
+    definitions
+
+    Parameters: ~
+      {opts} (table)  Picker configuration
+		      Please see |telescope.nvim| for more details
+
+                   *telescope.extensions.mona.elixir_buffer_directory_modules*
+`elixir_buffer_directory_modules``(`{opts}`)`
+    Displays modules (excluding tests and scripts) within the current buffer
+    directory
+
+    From the current buffer directory, a simple `ripgrep` query is launched to
+    populate a `telescope` picker with every descendant .ex
+    file that contains one or more module definitions
+
+    Parameters: ~
+      {opts} (table)  Picker configuration
+		      Please see |telescope.nvim| for more details
+
+                              *telescope.extensions.mona.elixir_project_tests*
+`elixir_project_tests``(`{opts}`)`
+    Displays tests (excluding modules and scripts) within the current project
+    directory
+
+    The underlying implementation is much the same as
+    `elixir_project_modules`, except the `ripgrep` query is configured to find
+    descendant `.exs` files that contain one or more module definitions
+    suffixed with `test`
+
+    Parameters: ~
+      {opts} (table)  Picker configuration
+		      Please see |telescope.nvim| for more details
+
+                          *telescope.extensions.mona.elixir_application_tests*
+`elixir_application_tests``(`{opts}`)`
+    Displays tests (excluding modules and scripts) within the current
+    `umbrella` application directory
+
+    The underlying implementation is much the same as
+    `elixir_application_modules`, except the `ripgrep` query is configured to
+    find descendant `.exs` files that contain one or more module definitions
+    suffixed with `test`
+
+    Parameters: ~
+      {opts} (table)  Picker configuration
+		      Please see |telescope.nvim| for more details
+
+                     *telescope.extensions.mona.elixir_buffer_directory_tests*
+`elixir_buffer_directory_tests``(`{opts}`)`
+    Displays tests (excluding modules and scripts) within the current buffer
+    directory
+
+    The underlying implementation is much the same as
+    `elixir_buffer_directory_modules`, except the `ripgrep` query is
+    configured to find descendant `.exs` files that contain one or more module
+    definitions suffixed with `test`
+
+    Parameters: ~
+      {opts} (table)  Picker configuration
+		      Please see |telescope.nvim| for more details
+
+vim:tw=78:ts=8:noet:ft=help:norl:
