@@ -9,7 +9,7 @@ goodies that I find nice when programming my favourite language in my favourite 
 ## Features
 
 - Browse project-wide modules using [telescope!](https://github.com/nvim-telescope/telescope.nvim)
-- Lua API for accessing project-wide modules, using [plenary.job](https://github.com/nvim-lua/plenary.nvim?tab=readme-ov-file#plenaryjob)
+- Lua API for accessing project-wide modules using [plenary.job!](https://github.com/nvim-lua/plenary.nvim?tab=readme-ov-file#plenaryjob)
 
 ## Install
 
@@ -54,7 +54,7 @@ local bufnr = vim.api.nvim_get_current_buf()
 
 vim.keymap.set({ 'n', 'x' }, '<leader>mm', mona.elixir_project_modules, {
   desc = 'Project Modules',
-  buffer = bufnr, -- exclude setting this if not defining the keymap within the `elixir` filetype plugin
+  buffer = bufnr, -- exclude setting this key if not defining the keymap within the `elixir` filetype plugin
   noremap = true,
 })
 
