@@ -13,6 +13,8 @@ goodies that I find nice when programming my favourite language in my favourite 
 
 ## Install
 
+- Requires [ripgrep](https://github.com/BurntSushi/ripgrep)
+
 Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
