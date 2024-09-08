@@ -9,7 +9,6 @@ goodies that I find nice when programming my favourite language in my favourite 
 ## Features
 
 - Browse project, application and current buffer directory modules using [telescope!](https://github.com/nvim-telescope/telescope.nvim)
-- Lua API for accessing project-wide modules using [plenary.job!](https://github.com/nvim-lua/plenary.nvim?tab=readme-ov-file#plenaryjob)
 
 ## Install
 
