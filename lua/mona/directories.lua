@@ -2,14 +2,24 @@ local Path = require('plenary.path')
 
 local M = {}
 
-local cwd = function()
+local get_current_working_directory = function()
   return Path:new(vim.fn.getcwd())
 end
 
-M.project_directory = function()
-  local path = cwd()
+local get_buffer_directory = function()
+  local bufname_path = Path:new(vim.fn.bufname()):parent()
 
-  local git_path = path:find_upwards('.git')
+  if not bufname_path:exists() then
+    return false
+  end
+
+  return bufname_path
+end
+
+M.project = function()
+  local current_working_directory = get_current_working_directory()
+
+  local git_path = current_working_directory:find_upwards('.git')
 
   if git_path == nil then
     return false
@@ -23,6 +33,38 @@ M.project_directory = function()
   end
 
   return project_path.filename
+end
+
+M.application = function()
+  local buffer_directory = get_buffer_directory()
+
+  if not buffer_directory then
+    return false
+  end
+
+  local mix_path = buffer_directory:find_upwards('mix.exs')
+
+  if not mix_path:exists() then
+    return false
+  end
+
+  local project_directory = M.project()
+
+  if mix_path.filename == project_directory then
+    return false
+  end
+
+  return mix_path:parent().filename
+end
+
+M.buffer = function()
+  local buffer_directory = get_buffer_directory()
+
+  if not buffer_directory then
+    return false
+  end
+
+  return buffer_directory.filename
 end
 
 return M

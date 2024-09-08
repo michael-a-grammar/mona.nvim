@@ -1,8 +1,8 @@
 local M = {}
 
-M.project_modules = function(project_directory)
+M.modules = function(directory)
   return require('mona.ripgrep.args.factory')({
-    directory = project_directory,
+    directory = directory,
     glob = '*.ex',
     replace = '$1',
     regexp = 'defmodule ([a-zA-Z.]*) do$',

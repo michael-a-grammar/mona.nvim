@@ -1,4 +1,4 @@
-# mona-nvim
+# mona.nvim
 
 A set of `elixir` extensions and configuration for [neovim](https://neovim.io/)!
 
@@ -8,7 +8,7 @@ goodies that I find nice when programming my favourite language in my favourite 
 
 ## Features
 
-- Browse project-wide modules using [telescope!](https://github.com/nvim-telescope/telescope.nvim)
+- Browse project, application and current buffer directory modules using [telescope!](https://github.com/nvim-telescope/telescope.nvim)
 - Lua API for accessing project-wide modules using [plenary.job!](https://github.com/nvim-lua/plenary.nvim?tab=readme-ov-file#plenaryjob)
 
 ## Install
@@ -52,7 +52,7 @@ Or, as above, if you're not fussed about the shortcut being global for every fil
 local mona = require('telescope').extensions.mona
 local bufnr = vim.api.nvim_get_current_buf()
 
-vim.keymap.set({ 'n', 'x' }, '<leader>mm', mona.elixir_project_modules, {
+vim.keymap.set({ 'n', 'x' }, '<leader>mp', mona.elixir_project_modules, {
   desc = 'Project Modules',
   buffer = bufnr, -- exclude setting this key if not defining the keymap within the `elixir` filetype plugin
   noremap = true,
@@ -61,6 +61,8 @@ vim.keymap.set({ 'n', 'x' }, '<leader>mm', mona.elixir_project_modules, {
 ```
 
 You can also call the `telescope` picker via the following `vim` command - `:Telescope mona elixir_project_modules`
+
+`elixir_application_modules` and `elixir_browser_directory_modules` are also exposed by the above
 
 > [!TIP]
 You can load the `telescope` extension early to get tab completion when typing the above command
@@ -74,7 +76,6 @@ telescope.load_extension('mona')
 ## Coming Soon
 
 - Browse *project-wide test* modules
-- Browse *current buffer directory* modules
-- Browse *current application* modules
 - Browse *current application test* modules
+- Browse _current buffer directory test_ modules
 - *Improved* go to a module using `gf`
