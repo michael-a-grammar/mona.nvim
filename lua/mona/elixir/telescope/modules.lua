@@ -1,6 +1,12 @@
 local M = {}
 
-local modules = function(directory_name)
+local capitalise = function(str)
+  return (str:gsub('^%l', string.upper))
+end
+
+local modules = function(directory_name, prompt_title)
+  prompt_title = prompt_title or capitalise(directory_name)
+
   local directory = require('mona.directories')[directory_name]()
 
   if not directory then
@@ -8,7 +14,7 @@ local modules = function(directory_name)
   end
 
   return require('mona.elixir.telescope.factories.modules')({
-    prompt_title = ' ' .. directory_name .. ' Modules',
+    prompt_title = ' ' .. prompt_title .. ' Modules',
 
     ripgrep_args = require('mona.ripgrep.args.elixir')
       .modules(directory)
@@ -20,12 +26,12 @@ M.project = function()
   return modules('project')
 end
 
-M.app = function()
-  return modules('app')
+M.application = function()
+  return modules('application')
 end
 
-M.buffer = function()
-  return modules('buffer')
+M.buffer_directory = function()
+  return modules('buffer', 'Buffer Directory')
 end
 
 return M

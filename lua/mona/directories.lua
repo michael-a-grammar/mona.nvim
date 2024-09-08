@@ -3,17 +3,13 @@ local Path = require('plenary.path')
 local M = {}
 
 local get_current_working_directory = function()
-  if true then
-    return Path:new(Path:new('~/crash'):expand())
-  else
-    return Path:new(vim.fn.getcwd())
-  end
+  return Path:new(vim.fn.getcwd())
 end
 
 local get_buffer_directory = function()
-  local bufname_path = Path:new(vim.fn.bufname())
+  local bufname_path = Path:new(vim.fn.bufname()):parent()
 
-  if not bufname_path.exists() then
+  if not bufname_path:exists() then
     return false
   end
 
@@ -39,7 +35,7 @@ M.project = function()
   return project_path.filename
 end
 
-M.app = function()
+M.application = function()
   local buffer_directory = get_buffer_directory()
 
   if not buffer_directory then
@@ -52,13 +48,13 @@ M.app = function()
     return false
   end
 
-  local project_directory = M.project_directory()
+  local project_directory = M.project()
 
   if mix_path.filename == project_directory then
     return false
   end
 
-  return mix_path.filename
+  return mix_path:parent().filename
 end
 
 M.buffer = function()
