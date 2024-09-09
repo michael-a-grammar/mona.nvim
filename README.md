@@ -20,7 +20,7 @@ We rely on regular expressions and conventions in order to _work things_ out - i
 
 - Requires [ripgrep](https://github.com/BurntSushi/ripgrep)
 
-Using [lazy.nvim](https://github.com/folke/lazy.nvim)
+- Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
 return {
@@ -65,7 +65,7 @@ vim.keymap.set({ 'n', 'x' }, '<leader>mp', mona.elixir_project_modules, {
 
 ```
 
-You can also call the `telescope` picker via the following `vim` command - `:Telescope mona elixir_project_modules`
+- You can also call the `telescope` picker via the following `vim` command - `:Telescope mona elixir_project_modules`
 
 > [!TIP]
 You can load the `telescope` extension early to get tab completion when typing the above command
@@ -96,7 +96,7 @@ To discern the root, _project_ directory:
 
 To discern the _application_ directory:
 
-From the current _buffer directory_, we attempt to find a _mix.exs_ file by searching upwards through the directory tree
+- From the current _buffer directory_, we attempt to find a _mix.exs_ file by searching upwards through the directory tree
 
 - We relay an error message if a _mix.exs_ file cannot be found or if the found _mix.exs_ file is the _project_-level one
 
@@ -124,6 +124,9 @@ Same as `elixir_buffer_directory_modules` except the `ripgrep` query is configur
 
 ## 💕 Attributions
 
+Projects that have either inspired or helped with the development of `mona`
+
 - [elixir-tools.nvim](https://github.com/elixir-tools/elixir-tools.nvim)
-- [nvim-plugin-template](https://github.com/ellisonleao/nvim-plugin-template/tree/main)
+- [nvim-plugin-template](https://github.com/ellisonleao/nvim-plugin-template)
+- [neotgit](https://github.com/NeogitOrg/neogit)
 - [vamp](https://github.com/michael-a-grammar/vamp)
