@@ -3,8 +3,6 @@ local Path = require('plenary.path')
 local M = {}
 
 local get_current_working_directory = function()
-  print(vim.fn.getcwd())
-
   return Path:new(vim.fn.getcwd())
 end
 
