@@ -128,5 +128,5 @@ Projects that have either inspired or helped with the development of `mona`
 
 - [elixir-tools.nvim](https://github.com/elixir-tools/elixir-tools.nvim)
 - [nvim-plugin-template](https://github.com/ellisonleao/nvim-plugin-template)
-- [neotgit](https://github.com/NeogitOrg/neogit)
+- [neogit](https://github.com/NeogitOrg/neogit)
 - [vamp](https://github.com/michael-a-grammar/vamp)
