@@ -124,4 +124,6 @@ Same as `elixir_buffer_directory_modules` except the `ripgrep` query is configur
 
 ## 💕 Attributions
 
+- [elixir-tools.nvim](https://github.com/elixir-tools/elixir-tools.nvim)
 - [nvim-plugin-template](https://github.com/ellisonleao/nvim-plugin-template/tree/main)
+- [vamp](https://github.com/michael-a-grammar/vamp)
