@@ -20,7 +20,7 @@ We rely on regular expressions and conventions in order to _work things_ out - i
 
 - Requires [ripgrep](https://github.com/BurntSushi/ripgrep)
 
-Using [lazy.nvim](https://github.com/folke/lazy.nvim)
+- Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
 return {
