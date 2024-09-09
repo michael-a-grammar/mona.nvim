@@ -1,6 +1,6 @@
 return function(tests)
   local factory = function(directory_name, prompt_title)
-    return require('mona.elixir.telescope.modules_factory')(
+    return require('mona.elixir.telescope.modules.factory')(
       directory_name,
       prompt_title,
       tests

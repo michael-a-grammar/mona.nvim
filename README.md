@@ -1,4 +1,6 @@
-# mona.nvim
+# 🧪 mona.nvim
+
+![Lua](https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua)
 
 A set of `elixir` extensions and configuration for [neovim](https://neovim.io/)!
 
@@ -6,11 +8,15 @@ A set of `elixir` extensions and configuration for [neovim](https://neovim.io/)!
 **Please note** that this is not a replacement for the various LSP implementations available for `elixir`; it is solely some
 goodies that I find nice when programming my favourite language in my favourite editor
 
-## Features
+As `mona` doesn't use any fancy LSP shenanigans, it is blindingly fast but may prove to be naive in implementation
 
-- Browse project, application and current buffer directory modules using [telescope!](https://github.com/nvim-telescope/telescope.nvim)
+We simply rely on regular expressions and conventions in order to _work things_ out - if you consider using `mona`, please report any inconsistencies!
 
-## Install
+## ✨ Features
+
+- Browse project, application and current buffer directory modules _and_ tests using [telescope!](https://github.com/nvim-telescope/telescope.nvim)
+
+## 💻 Install
 
 - Requires [ripgrep](https://github.com/BurntSushi/ripgrep)
 
@@ -27,12 +33,12 @@ return {
 }
 ```
 
-## Usage
+## 🚀 Usage
 
 > [!NOTE]
-You don't *strictly* have to do the below if you don't mind `elixir` shortcuts clobbering your non-specific keymap!
+You don't *strictly* have to do the below if you don't mind `elixir`-specific shortcuts clobbering your keymap!
 
-- Create a `elixir` filetype plugin where your `neovim` resides (typically *~/.config/nvim/*) if one doesn't already exist
+- Create a `elixir` _filetype_ plugin where your `neovim` configuration resides (typically *~/.config/nvim/*) if one doesn't already exist
 
 ```bash
 if [ ! -f ~/.config/nvim/after/ftplugin/elixir.lua ]; then
@@ -41,10 +47,10 @@ if [ ! -f ~/.config/nvim/after/ftplugin/elixir.lua ]; then
 fi
 ```
 
-- Add the following keymap to the above file 
+- Add the following keymap to the above file to bind searching for `elixir` modules within your current project
 
 > [!NOTE]
-Or, as above, if you're not fussed about the shortcut being global for every filetype, add it to where you usually define keymaps
+Or, as above, if you're not fussed about the shortcut being set for _every_ filetype, add it to where you usually define keymaps
 
 
 ```lua
@@ -72,9 +78,48 @@ local telescope = require('telescope')
 telescope.load_extension('mona')
 ```
 
-## Coming Soon
+### 🔭 Telescope Pickers
 
-- Browse *project-wide test* modules
-- Browse *current application test* modules
-- Browse _current buffer directory test_ modules
-- *Improved* go to a module using `gf`
+`mona` exposes the following `telescope` pickers as well as the `elixir_project_modules` picker shown in the example above
+
+#### elixir_project_modules
+
+To discern the root, _project_ directory:
+
+- From the current _working directory_, we attempt to find a _.git_ directory by searching upwards through the directory tree
+
+- We relay an error message if a _.git_ directory cannot be found
+
+- Within the directory that the _.git_ directory is found, we check for the existence of a _mix.exs_ file
+
+- From here, a simple `ripgrep` query is launched to populate a `telescope` picker with every descendant `.ex` file
+
+#### elixir_application_modules
+
+To discern the _application_ directory:
+
+From the current _buffer directory_, we attempt to find a _mix.exs_ file by searching upwards through the directory tree
+
+- We relay an error message if a _mix.exs_ file cannot be found or if the found _mix.exs_ file is the _project_-level one
+
+- From here, a simple `ripgrep` query is launched to populate a `telescope` picker with every descendant `.ex` file
+
+#### elixir_buffer_directory_modules
+
+From the current _buffer_ directory, a simple `ripgrep` query is launched to populate a `telescope` picker with every descendant `.ex` file
+
+#### elixir_project_tests
+
+Same as `elixir_project_modules` except the `ripgrep` query is configured to find descendant `.exs` files
+
+#### elixir_application_tests
+
+Same as `elixir_application_modules` except the `ripgrep` query is configured to find descendant `.exs` files
+
+#### elixir_buffer_directory_tests
+
+Same as `elixir_buffer_directory_modules` except the `ripgrep` query is configured to find descendant `.exs` files
+
+## 💕 Coming Soon
+
+- *Improved* module navigation

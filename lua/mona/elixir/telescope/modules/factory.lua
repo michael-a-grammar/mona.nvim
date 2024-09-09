@@ -13,7 +13,7 @@ return function(directory_name, prompt_title, tests)
     return false
   end
 
-  return require('mona.elixir.telescope.modules_picker')({
+  return require('mona.elixir.telescope.modules.picker')({
     prompt_title = prompt_title,
 
     ripgrep_args = require('mona.ripgrep.args.elixir')
