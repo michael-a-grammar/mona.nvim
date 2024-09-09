@@ -20,7 +20,7 @@ We rely on regular expressions and conventions in order to _work things_ out - i
 
 - Requires [ripgrep](https://github.com/BurntSushi/ripgrep)
 
-- Using [lazy.nvim](https://github.com/folke/lazy.nvim)
+Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
 return {
@@ -80,6 +80,8 @@ telescope.load_extension('mona')
 
 `mona` exposes the following `telescope` pickers as well as the `elixir_project_modules` picker shown in the example above
 
+They each rely on convention to find relevant results, disclosed below
+
 #### elixir_project_modules
 
 To discern the root, _project_ directory:
@@ -106,17 +108,15 @@ To discern the _application_ directory:
 
 From the current _buffer_ directory, a simple `ripgrep` query is launched to populate a `telescope` picker with every descendant `.ex` file that contains one or more module definitions
 
-#### elixir_project_tests
+### tests
 
-Same as `elixir_project_modules` except the `ripgrep` query is configured to find descendant `.exs` files that contain one or more module definitions suffixed with _test_
+There are also equivalents to each of the above available specifically for tests
 
-#### elixir_application_tests
+These work in much the same way except each `ripgrep` query is configured to find descendant `.exs` files that contain one or more module definitions suffixed with `test`
 
-Same as `elixir_application_modules` except the `ripgrep` query is configured to find descendant `.exs` files that contain one or more module definitions suffixed with _test_
-
-#### elixir_buffer_directory_tests
-
-Same as `elixir_buffer_directory_modules` except the `ripgrep` query is configured to find descendant `.exs` files that contain one or more module definitions suffixed with _test_
+- `elixir_project_tests`
+- `elixir_application_tests`
+- `elixir_buffer_directory_tests`
 
 ## 🕰️ Coming Soon
 
@@ -129,4 +129,5 @@ Projects that have either inspired or helped with the development of `mona`
 - [elixir-tools.nvim](https://github.com/elixir-tools/elixir-tools.nvim)
 - [nvim-plugin-template](https://github.com/ellisonleao/nvim-plugin-template)
 - [neogit](https://github.com/NeogitOrg/neogit)
-- [vamp](https://github.com/michael-a-grammar/vamp)
+
+`mona` is also a part of my personal [neovim](https://neovim.io/) setup, [vamp](https://github.com/michael-a-grammar/vamp) 🎷
