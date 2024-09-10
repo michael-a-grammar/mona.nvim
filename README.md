@@ -16,59 +16,96 @@ We rely on regular expressions and conventions in order to _work things_ out - i
 
 - Browse project, application and current buffer directory modules _and_ tests using [telescope!](https://github.com/nvim-telescope/telescope.nvim)
 
-## 💻 Install
+## 🚀 Install
 
 - Requires [ripgrep](https://github.com/BurntSushi/ripgrep)
 
-- Using [lazy.nvim](https://github.com/folke/lazy.nvim)
+Using [lazy.nvim](https://github.com/folke/lazy.nvim), here is an example _plugin spec_ utilising lazy loading and filetype-specific keymaps
 
 ```lua
 return {
   'michael-a-grammar/mona.nvim',
 
+  ft = 'elixir',
+
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-telescope/telescope.nvim',
   },
+
+  keys = {
+    {
+      '<leader>mp',
+      function()
+        require('telescope').extensions.mona.elixir_project_modules()
+      end,
+      desc = ' Browse Project Modules',
+      ft = 'elixir',
+      mode = { 'n', 'x' },
+    },
+
+    {
+      '<leader>ma',
+      function()
+        require('telescope').extensions.mona.elixir_application_modules()
+      end,
+      desc = ' Browse Application Modules',
+      ft = 'elixir',
+      mode = { 'n', 'x' },
+    },
+
+    {
+      '<leader>mb',
+      function()
+        require('telescope').extensions.mona.elixir_buffer_directory_modules()
+      end,
+      desc = ' Browse Buffer Directory Modules',
+      ft = 'elixir',
+      mode = { 'n', 'x' },
+    },
+
+    {
+      '<leader>mtp',
+      function()
+        require('telescope').extensions.mona.elixir_project_tests()
+      end,
+      desc = ' Browse Project Tests',
+      ft = 'elixir',
+      mode = { 'n', 'x' },
+    },
+
+    {
+      '<leader>mta',
+      function()
+        require('telescope').extensions.mona.elixir_application_tests()
+      end,
+      desc = ' Browse Application Tests',
+      ft = 'elixir',
+      mode = { 'n', 'x' },
+    },
+
+    {
+      '<leader>mtb',
+      function()
+        require('telescope').extensions.mona.elixir_buffer_directory_tests()
+      end,
+      desc = ' Browse Buffer Directory Tests',
+      ft = 'elixir',
+      mode = { 'n', 'x' },
+    },
+  }
 }
 ```
+- Alternatively, rather than utilising an anonymous function wrapper, you can call a `telescope` picker within a keymap via the following syntax 
 
-## 🚀 Usage
+`<cmd>Telescope mona elixir_project_modules<cr>`
 
-> [!NOTE]
-You don't *strictly* have to do the below if you don't mind `elixir`-specific shortcuts clobbering your keymap!
+- Or, you can call a `telescope` picker directly using the following `vim` command
 
-- Create a `elixir` _filetype_ plugin where your `neovim` configuration resides (typically *~/.config/nvim/*) if one doesn't already exist
-
-```bash
-if [ ! -f ~/.config/nvim/after/ftplugin/elixir.lua ]; then
-    mkdir -p ~/.config/nvim/after/ftplugin/
-    touch ~/.config/nvim/after/ftplugin/elixir.lua
-fi
-```
-
-- Add the following keymap to the above file to bind searching for `elixir` modules within your current project
-
-> [!NOTE]
-Or, as above, if you're not fussed about the shortcut being set for _every_ filetype, add it to where you usually define keymaps
-
-
-```lua
-local mona = require('telescope').extensions.mona
-local bufnr = vim.api.nvim_get_current_buf()
-
-vim.keymap.set({ 'n', 'x' }, '<leader>mp', mona.elixir_project_modules, {
-  desc = 'Project Modules',
-  buffer = bufnr, -- exclude setting this key if not defining the keymap within the `elixir` filetype plugin
-  noremap = true,
-})
-
-```
-
-- You can also call the `telescope` picker via the following `vim` command - `:Telescope mona elixir_project_modules`
+`:Telescope mona elixir_project_modules`
 
 > [!TIP]
-You can load the `telescope` extension early to get tab completion when typing the above command
+You can load the `telescope` extension early within your `telescope` configuration to get tab completion when typing the above `vim` command, example below
 
 ```lua
 local telescope = require('telescope')
@@ -76,11 +113,9 @@ local telescope = require('telescope')
 telescope.load_extension('mona')
 ```
 
-### 🔭 Telescope Pickers
+## 🔭 Telescope Pickers
 
-`mona` exposes the following `telescope` pickers as well as the `elixir_project_modules` picker shown in the example above
-
-They each rely on convention to find relevant results, disclosed below
+`mona` exposes the following `telescope` pickers, each relying on convention to find relevant results, disclosed below
 
 #### elixir_project_modules
 
@@ -108,7 +143,7 @@ To discern the _application_ directory:
 
 From the current _buffer_ directory, a simple `ripgrep` query is launched to populate a `telescope` picker with every descendant `.ex` file that contains one or more module definitions
 
-### tests
+#### tests
 
 There are also equivalents to each of the above available specifically for tests
 
@@ -120,6 +155,7 @@ These work in much the same way except each `ripgrep` query is configured to fin
 
 ## 🕰️ Coming Soon
 
+- `telescope` picker configuration
 - *Improved* module navigation
 
 ## 💕 Attributions
