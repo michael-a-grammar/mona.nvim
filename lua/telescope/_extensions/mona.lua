@@ -1,7 +1,15 @@
-local modules = require('mona.elixir.telescope.modules')(false)
-local tests = require('mona.elixir.telescope.modules')(true)
+local config = require('telescope._extensions.mona.config')
+
+local factory = function(tests)
+  return require('telescope._extensions.mona.elixir.modules')(tests)
+end
+
+local modules = factory(false)
+local tests = factory(true)
 
 return require('telescope').register_extension({
+  setup = config.setup,
+
   exports = {
     elixir_project_modules = modules.project,
 

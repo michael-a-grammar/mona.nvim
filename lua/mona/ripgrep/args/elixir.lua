@@ -1,7 +1,13 @@
 local M = {}
 
 M.modules = function(directory, tests)
-  local glob = '*.ex' .. (tests and 's' or '')
+  local glob
+
+  if not tests then
+    glob = '*.ex'
+  else
+    glob = '*_test.exs'
+  end
 
   local regexp =
     string.format('defmodule ([a-zA-Z.]*%s) do$', tests and 'Test' or '')

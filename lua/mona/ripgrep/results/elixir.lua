@@ -2,12 +2,23 @@ local M = {}
 
 M.modules = function(results)
   local modules = {}
+
   for _, result in ipairs(results) do
-    table.insert(modules, M.module(result))
+    local module = M.module(result)
+
+    if module then
+      table.insert(modules, module)
+    end
   end
+
+  return modules
 end
 
 M.module = function(result)
+  if not result or result == '' then
+    return false
+  end
+
   local path, line_number, column_number, module_name =
     string.match(result, '(.*):(.*):(.*):(.*)')
 

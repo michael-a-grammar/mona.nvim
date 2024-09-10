@@ -48,13 +48,15 @@ M.application = function()
     return false
   end
 
+  local application_directory = mix_path:parent().filename
+
   local project_directory = M.project()
 
-  if mix_path.filename == project_directory then
+  if application_directory == project_directory then
     return false
   end
 
-  return mix_path:parent().filename
+  return application_directory
 end
 
 M.buffer = function()
