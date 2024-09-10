@@ -6,7 +6,7 @@ A set of `elixir` extensions and configuration for [neovim](https://neovim.io/)!
 
 > [!IMPORTANT]
 **Please note** that this is not a replacement for the various LSP implementations available for `elixir`; it is solely some
-goodies that I find nice when programming my favourite language in my favourite editor
+goodies that I find nice when programming with my favourite language in my favourite editor
 
 As `mona` doesn't use any fancy LSP shenanigans, it is blindingly fast (thanks to `ripgrep`!) but may prove to be naive in implementation
 
@@ -39,7 +39,7 @@ return {
       function()
         require('telescope').extensions.mona.elixir_project_modules()
       end,
-      desc = ' Browse Project Modules',
+      desc = 'Browse Project Modules',
       ft = 'elixir',
       mode = { 'n', 'x' },
     },
@@ -49,7 +49,7 @@ return {
       function()
         require('telescope').extensions.mona.elixir_application_modules()
       end,
-      desc = ' Browse Application Modules',
+      desc = 'Browse Application Modules',
       ft = 'elixir',
       mode = { 'n', 'x' },
     },
@@ -59,7 +59,7 @@ return {
       function()
         require('telescope').extensions.mona.elixir_buffer_directory_modules()
       end,
-      desc = ' Browse Buffer Directory Modules',
+      desc = 'Browse Buffer Directory Modules',
       ft = 'elixir',
       mode = { 'n', 'x' },
     },
@@ -69,7 +69,7 @@ return {
       function()
         require('telescope').extensions.mona.elixir_project_tests()
       end,
-      desc = ' Browse Project Tests',
+      desc = 'Browse Project Tests',
       ft = 'elixir',
       mode = { 'n', 'x' },
     },
@@ -79,7 +79,7 @@ return {
       function()
         require('telescope').extensions.mona.elixir_application_tests()
       end,
-      desc = ' Browse Application Tests',
+      desc = 'Browse Application Tests',
       ft = 'elixir',
       mode = { 'n', 'x' },
     },
@@ -89,7 +89,7 @@ return {
       function()
         require('telescope').extensions.mona.elixir_buffer_directory_tests()
       end,
-      desc = ' Browse Buffer Directory Tests',
+      desc = 'Browse Buffer Directory Tests',
       ft = 'elixir',
       mode = { 'n', 'x' },
     },
