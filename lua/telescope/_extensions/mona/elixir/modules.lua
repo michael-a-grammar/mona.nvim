@@ -1,12 +1,25 @@
 return function(tests)
-  local factory = function(directory_name, opts, prompt_title)
+  local capitalise = function(str)
+    return (str:gsub('^%l', string.upper))
+  end
+
+  local factory = function(directory_name, opts)
     opts = opts or {}
 
-    opts.directory_name = directory_name
-    opts.prompt_title = prompt_title
-    opts.tests = tests
+    local directory = require('mona.directories')[directory_name]()
 
-    return require('telescope._extensions.mona.elixir.modules.factory')(opts)
+    if not directory then
+      return false
+    end
+
+    opts.prompt_title = ' '
+      .. (opts.prompt_title or capitalise(directory_name))
+      .. (tests and ' Tests' or ' Modules')
+
+    opts.vimgrep_arguments =
+      require('mona.ripgrep.args.elixir').modules(directory, tests)
+
+    return require('telescope._extensions.mona.elixir.modules.picker')(opts)
   end
 
   return {
@@ -19,7 +32,11 @@ return function(tests)
     end,
 
     buffer_directory = function(opts)
-      return factory('buffer', opts, 'Buffer Directory')
+      opts = opts or {}
+
+      opts.prompt_title = opts.prompt_title or 'Buffer Directory'
+
+      return factory('buffer', opts)
     end,
   }
 end

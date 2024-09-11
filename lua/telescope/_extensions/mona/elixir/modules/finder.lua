@@ -1,18 +1,25 @@
 return function(opts)
-  local finders = require('telescope.finders')
+  local async_oneshot_finder = require('telescope.finders.async_oneshot_finder')
 
-  opts.entry_maker = function(entry)
-    local module = require('mona.ripgrep.results.elixir').module(entry)
+  return async_oneshot_finder({
+    fn_command = function()
+      return {
+        command = 'rg',
+        args = opts.vimgrep_arguments,
+      }
+    end,
 
-    return {
-      col = module.column_number,
-      display = module.module_name,
-      lnum = module.line_number,
-      ordinal = module.module_name,
-      path = module.path,
-      value = entry,
-    }
-  end
+    entry_maker = function(entry)
+      local module = require('mona.ripgrep.results.elixir').module(entry)
 
-  return finders.new_oneshot_job(opts.ripgrep_args, opts)
+      return {
+        col = module.column_number,
+        display = module.module_name,
+        lnum = module.line_number,
+        ordinal = module.module_name,
+        path = module.path,
+        value = entry,
+      }
+    end,
+  })
 end

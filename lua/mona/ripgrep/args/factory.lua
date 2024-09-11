@@ -1,12 +1,6 @@
 return function(opts)
   local args = {}
 
-  args.with_rg_command = function(self)
-    table.insert(self, 1, 'rg')
-
-    return self
-  end
-
   local insert_arg = function(arg, exclude_prefix)
     local prefix = (exclude_prefix and '') or '--'
 
