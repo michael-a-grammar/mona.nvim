@@ -10,7 +10,7 @@ goodies that I find nice when programming with my favourite language in my favou
 
 As `mona` doesn't use any fancy LSP shenanigans, it is blindingly fast (thanks to `ripgrep`!) but may prove to be naive in implementation
 
-We rely on regular expressions and conventions in order to _work things_ out - if you consider using `mona`, please report any inconsistencies!
+We rely on regular expressions and conventions in order to work _things_ out - if you consider using `mona`, please report any inconsistencies!
 
 ## ✨ Features
 
@@ -22,6 +22,7 @@ We rely on regular expressions and conventions in order to _work things_ out - i
 
 Using [lazy.nvim](https://github.com/folke/lazy.nvim), here is an example _plugin spec_ utilising lazy loading and filetype-specific keymaps
 
+<details>
 ```lua
 return {
   'michael-a-grammar/mona.nvim',
@@ -96,11 +97,13 @@ return {
   }
 }
 ```
+</details>
+
 - Alternatively, rather than utilising an anonymous function wrapper, you can call a `telescope` picker within a keymap via the following syntax 
 
 `<cmd>Telescope mona elixir_project_modules<cr>`
 
-- Or, you can call a `telescope` picker directly using the following `vim` command
+- Or you can call a `telescope` picker directly using the following `vim` command
 
 `:Telescope mona elixir_project_modules`
 
@@ -113,10 +116,55 @@ local telescope = require('telescope')
 telescope.load_extension('mona')
 ```
 
+`mona` also supports `telescope`-specific configuration being set as a part of the `telescope` _plugin spec_ 
+
+Here is an example that changes the default theme of all the `telescope` pickers exposed by `mona`
+
+<details>
+```lua
+
+return {
+  'nvim-telescope/telescope.nvim',
+
+   ...
+
+   opts = {
+     defaults = {
+       mappings = {
+         ...
+       },
+      
+      extensions = {
+        mona = {
+          theme = 'ivy',
+        },
+      },
+    },
+  },
+}
+
+```
+</details>
+
+You can also pass such configuration directly into the function call of a relevant picker like so
+
+<details>
+```lua
+require('telescope').extensions.mona.elixir_project_modules(
+  require('telescope.themes').get_ivy({
+    layout_config = {
+      height = 35
+    },
+  })
+)
+```
+</details>
+
 ## 🔭 Telescope Pickers
 
 `mona` exposes the following `telescope` pickers, each relying on convention to find relevant results, disclosed below
 
+<details>
 #### elixir_project_modules
 
 To discern the root, _project_ directory:
@@ -152,18 +200,20 @@ These work in much the same way except each `ripgrep` query is configured to fin
 - `elixir_project_tests`
 - `elixir_application_tests`
 - `elixir_buffer_directory_tests`
+</details>
 
 ## 🕰️ Coming Soon
 
-- `telescope` picker configuration
 - *Improved* module navigation
 
 ## 💕 Attributions
 
 Projects that have either inspired or helped with the development of `mona`
 
-- [elixir-tools.nvim](https://github.com/elixir-tools/elixir-tools.nvim)
 - [nvim-plugin-template](https://github.com/ellisonleao/nvim-plugin-template)
+- [elixir-tools.nvim](https://github.com/elixir-tools/elixir-tools.nvim)
 - [neogit](https://github.com/NeogitOrg/neogit)
+- [telescope.nvim/developers.md](https://github.com/nvim-telescope/telescope.nvim/blob/master/developers.md)
+- [telescope-file-browser.nvim](https://github.com/nvim-telescope/telescope-file-browser.nvim)
 
 `mona` is also a part of my personal [neovim](https://neovim.io/) setup, [vamp](https://github.com/michael-a-grammar/vamp) 🎷
