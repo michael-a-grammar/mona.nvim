@@ -23,6 +23,7 @@ We rely on regular expressions and conventions in order to work _things_ out - i
 Using [lazy.nvim](https://github.com/folke/lazy.nvim), here is an example _plugin spec_ utilising lazy loading and filetype-specific keymaps
 
 <details>
+
 ```lua
 return {
   'michael-a-grammar/mona.nvim',
@@ -97,6 +98,7 @@ return {
   }
 }
 ```
+
 </details>
 
 - Alternatively, rather than utilising an anonymous function wrapper, you can call a `telescope` picker within a keymap via the following syntax 
@@ -121,8 +123,8 @@ telescope.load_extension('mona')
 Here is an example that changes the default theme of all the `telescope` pickers exposed by `mona`
 
 <details>
-```lua
 
+```lua
 return {
   'nvim-telescope/telescope.nvim',
 
@@ -142,13 +144,14 @@ return {
     },
   },
 }
-
 ```
+
 </details>
 
 You can also pass such configuration directly into the function call of a relevant picker like so
 
 <details>
+
 ```lua
 require('telescope').extensions.mona.elixir_project_modules(
   require('telescope.themes').get_ivy({
@@ -158,6 +161,7 @@ require('telescope').extensions.mona.elixir_project_modules(
   })
 )
 ```
+
 </details>
 
 ## 🔭 Telescope Pickers
@@ -165,6 +169,7 @@ require('telescope').extensions.mona.elixir_project_modules(
 `mona` exposes the following `telescope` pickers, each relying on convention to find relevant results, disclosed below
 
 <details>
+
 #### elixir_project_modules
 
 To discern the root, _project_ directory:
@@ -200,6 +205,7 @@ These work in much the same way except each `ripgrep` query is configured to fin
 - `elixir_project_tests`
 - `elixir_application_tests`
 - `elixir_buffer_directory_tests`
+
 </details>
 
 ## 🕰️ Coming Soon
