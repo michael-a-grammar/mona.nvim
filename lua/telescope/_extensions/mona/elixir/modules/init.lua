@@ -1,10 +1,8 @@
 return function(tests)
-  local capitalise = function(str)
-    return (str:gsub('^%l', string.upper))
-  end
-
   local factory = function(directory_name, opts)
     opts = opts or {}
+
+    local utils = require('telescope._extensions.mona.utils')
 
     local directory = require('mona.directories')[directory_name]()
 
@@ -13,7 +11,7 @@ return function(tests)
     end
 
     opts.prompt_title = ' '
-      .. (opts.prompt_title or capitalise(directory_name))
+      .. (opts.prompt_title or utils.string.capitalise(directory_name))
       .. (tests and ' Tests' or ' Modules')
 
     opts.vimgrep_arguments =
