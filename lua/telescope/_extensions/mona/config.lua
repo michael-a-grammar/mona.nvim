@@ -1,19 +1,25 @@
 local M = {}
 
-_G._TelescopeMonaConfig = _G._TelescopeMonaConfig or {}
+local included_pickers_name = 'pickers'
+
+_G._TelescopeMonaConfig = _G._TelescopeMonaConfig
+  or {
+    pickers = {
+      [included_pickers_name] = {
+        theme = 'dropdown',
+      },
+    },
+  }
+
 _G._TelescopeMonaPickers = _G._TelescopeMonaPickers or {}
 
 M.values = _G._TelescopeMonaConfig
 M.included_pickers = _G._TelescopeMonaPickers
 
-M.included_pickers_name = 'pickers'
+M.included_pickers_name = included_pickers_name
 
 local deep_extend_tables = function(table1, table2)
   return vim.tbl_deep_extend('force', table1, table2)
-end
-
-local deep_copy_config_values = function()
-  return vim.deepcopy(M.values)
 end
 
 local extend_config_values = function(opts)
@@ -24,8 +30,24 @@ local extend_config_values = function(opts)
   M.values = deep_extend_tables(M.values, opts)
 end
 
-local get_theme_config = function()
-  return require('telescope.themes')['get_' .. M.values.theme]()
+local get_theme_config = function(
+  picker_opts,
+  default_picker_opts,
+  extension_opts
+)
+  local theme
+
+  for _, opts in ipairs({ extension_opts, default_picker_opts, picker_opts }) do
+    if opts and opts.theme then
+      theme = opts.theme
+    end
+  end
+
+  if theme and M.values.theme then
+    return require('telescope.themes')['get_' .. theme]()
+  end
+
+  return {}
 end
 
 M.setup = function(ext_config, config)
@@ -36,17 +58,19 @@ M.setup = function(ext_config, config)
 end
 
 M.merge = function(opts)
-  local config
+  local default_picker_opts = M.values.pickers[opts.picker_name] or {}
 
-  if M.values.theme then
-    local theme_config = get_theme_config()
+  local theme_config = get_theme_config(opts, default_picker_opts, M.values)
 
-    config = deep_extend_tables(M.values, theme_config)
-  else
-    config = deep_copy_config_values()
-  end
+  local config = deep_extend_tables(
+    deep_extend_tables(
+      deep_extend_tables(M.values, default_picker_opts),
+      theme_config
+    ),
+    opts
+  )
 
-  return deep_extend_tables(config, opts)
+  return config
 end
 
 M.register_included_pickers = function(pickers)

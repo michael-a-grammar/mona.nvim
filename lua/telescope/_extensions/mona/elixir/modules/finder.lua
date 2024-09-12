@@ -1,4 +1,8 @@
 return function(opts)
+  if not opts then
+    return false
+  end
+
   local async_oneshot_finder = require('telescope.finders.async_oneshot_finder')
 
   local entry_maker =

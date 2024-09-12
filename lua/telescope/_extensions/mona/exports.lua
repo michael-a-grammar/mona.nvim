@@ -19,6 +19,16 @@ M = {
   [config.included_pickers_name] = included_pickers,
 }
 
+for picker_name, picker in pairs(M) do
+  M[picker_name] = function(opts)
+    opts = opts or {}
+
+    opts.picker_name = picker_name
+
+    picker(opts)
+  end
+end
+
 config.register_included_pickers(M)
 
 return M

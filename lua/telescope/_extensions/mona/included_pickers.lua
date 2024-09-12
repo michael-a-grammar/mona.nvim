@@ -3,7 +3,7 @@ return function(opts)
 
   local utils = require('telescope._extensions.mona.utils')
 
-  opts.prompt_title = '󱄮 ' .. 'mona'
+  opts.prompt_title = ' ' .. 'mona'
 
   local pickers, config, merged_config =
     require('telescope._extensions.mona.base_picker')(opts)
@@ -15,7 +15,7 @@ return function(opts)
 
         entry_maker = function(entry)
           local picker_name = entry[1]
-          local picker_display_name = ''
+          local picker_display_name = ''
 
           for picker_display_name_part in string.gmatch(picker_name, '[^_]+') do
             if picker_display_name_part ~= 'elixir' then
