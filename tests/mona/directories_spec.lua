@@ -4,10 +4,10 @@ describe('mona.directories', function()
   local current_working_directory = vim.fn.getcwd()
 
   local mona_test_project_directory = current_working_directory
-    .. '/tests/mona_test_project'
+    .. '/test_projects/mona_test_project'
 
   local mona_test_umbrella_project_directory = current_working_directory
-    .. '/tests/mona_test_umbrella_project'
+    .. '/test_projects/mona_test_umbrella_project'
 
   describe('project', function()
     it('should return the elixir project directory', function()

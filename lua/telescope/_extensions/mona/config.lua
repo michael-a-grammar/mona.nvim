@@ -1,22 +1,24 @@
 local M = {}
 
-local included_pickers_name = 'pickers'
+local defaults = function()
+  M.included_pickers_name = 'pickers'
 
-_G._TelescopeMonaConfig = _G._TelescopeMonaConfig
-  or {
-    pickers = {
-      [included_pickers_name] = {
-        theme = 'dropdown',
+  _G._TelescopeMonaConfig = _G._TelescopeMonaConfig
+    or {
+      pickers = {
+        [M.included_pickers_name] = {
+          theme = 'dropdown',
+        },
       },
-    },
-  }
+    }
 
-_G._TelescopeMonaPickers = _G._TelescopeMonaPickers or {}
+  _G._TelescopeMonaPickers = _G._TelescopeMonaPickers or {}
 
-M.values = _G._TelescopeMonaConfig
-M.included_pickers = _G._TelescopeMonaPickers
+  M.values = _G._TelescopeMonaConfig
+  M.included_pickers = _G._TelescopeMonaPickers
+end
 
-M.included_pickers_name = included_pickers_name
+defaults()
 
 local deep_extend_tables = function(table1, table2)
   return vim.tbl_deep_extend('force', table1, table2)
@@ -30,41 +32,37 @@ local extend_config_values = function(opts)
   M.values = deep_extend_tables(M.values, opts)
 end
 
-local get_theme_config = function(
-  picker_opts,
-  default_picker_opts,
-  extension_opts
-)
+local get_theme_config = function(picker_opts, picker_config, config)
   local theme
 
-  for _, opts in ipairs({ extension_opts, default_picker_opts, picker_opts }) do
+  for _, opts in ipairs({ config, picker_config, picker_opts }) do
     if opts and opts.theme then
       theme = opts.theme
     end
   end
 
-  if theme and M.values.theme then
+  if theme then
     return require('telescope.themes')['get_' .. theme]()
   end
 
   return {}
 end
 
-M.setup = function(ext_config, config)
-  extend_config_values(config)
-  extend_config_values(ext_config)
+M.setup = function(extension_config, user_config)
+  extend_config_values(user_config)
+  extend_config_values(extension_config)
 
   return M
 end
 
 M.merge = function(opts)
-  local default_picker_opts = M.values.pickers[opts.picker_name] or {}
+  local picker_config = M.values.pickers[opts.picker_name] or {}
 
-  local theme_config = get_theme_config(opts, default_picker_opts, M.values)
+  local theme_config = get_theme_config(opts, picker_config, M.values)
 
   local config = deep_extend_tables(
     deep_extend_tables(
-      deep_extend_tables(M.values, default_picker_opts),
+      deep_extend_tables(M.values, picker_config),
       theme_config
     ),
     opts
@@ -82,6 +80,13 @@ M.register_included_pickers = function(pickers)
       })
     end
   end
+end
+
+M.reset = function()
+  _G._TelescopeMonaConfig = nil
+  _G._TelescopeMonaPickers = nil
+
+  defaults()
 end
 
 return M

@@ -1,19 +1,29 @@
-local plenary_dir = os.getenv('PLENARY_DIR') or '/tmp/plenary.nvim'
+vim.opt.rtp:append('.')
 
-local is_directory = vim.fn.isdirectory(plenary_dir) ~= 0
+for _, repository in ipairs({
+  'nvim-lua/plenary.nvim',
+  'nvim-telescope/telescope.nvim',
+}) do
+  local _, directory = string.match(repository, '(.*)/(.*)')
 
-if not is_directory then
-  vim.fn.system({
-    'git',
-    'clone',
-    'https://github.com/nvim-lua/plenary.nvim',
-    plenary_dir,
-  })
+  directory = '/tmp/' .. directory
+
+  local is_directory = vim.fn.isdirectory(directory) ~= 0
+
+  if not is_directory then
+    vim.fn.system({
+      'git',
+      'clone',
+      'https://github.com/' .. repository,
+      directory,
+    })
+  end
+
+  vim.opt.rtp:append(directory)
 end
 
-vim.opt.rtp:append('.')
-vim.opt.rtp:append(plenary_dir)
-
 vim.cmd('runtime plugin/plenary.vim')
+
+_G.TEST = true
 
 require('plenary.busted')

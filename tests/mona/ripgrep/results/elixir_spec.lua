@@ -24,7 +24,7 @@ describe('mona.ripgrep.results.elixir', function()
         for _, ripgrep_output in ipairs({ nil, '' }) do
           local result = elixir.module(ripgrep_output)
 
-          assert.equals(false, result)
+          assert.is.not_false(result)
         end
       end
     )

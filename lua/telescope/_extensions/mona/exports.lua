@@ -1,4 +1,4 @@
-local M = {}
+local M
 
 local config = require('telescope._extensions.mona.config')
 
