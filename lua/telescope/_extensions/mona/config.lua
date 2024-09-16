@@ -56,7 +56,15 @@ M.setup = function(extension_config, user_config)
 end
 
 M.merge = function(opts)
-  local picker_config = M.values.pickers[opts.picker_name] or {}
+  opts = opts or {}
+
+  local picker_config
+
+  if opts.picker_name and M.values.pickers then
+    picker_config = M.values.pickers[opts.picker_name] or {}
+  else
+    picker_config = {}
+  end
 
   local theme_config = get_theme_config(opts, picker_config, M.values)
 
