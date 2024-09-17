@@ -88,6 +88,8 @@ M.register_included_pickers = function(pickers)
       })
     end
   end
+
+  return M.included_pickers
 end
 
 M.reset = function()
