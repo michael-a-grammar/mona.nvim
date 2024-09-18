@@ -1,5 +1,4 @@
 describe('telescope._extensions.mona.base_picker', function()
-
   local base_picker = require('telescope._extensions.mona.base_picker')
 
   it('should return the telescope pickers, config and merged config', function()
