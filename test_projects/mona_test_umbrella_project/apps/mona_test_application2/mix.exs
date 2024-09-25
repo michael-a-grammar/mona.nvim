@@ -1,9 +1,9 @@
-defmodule MonaTestApplication.MixProject do
+defmodule MonaTestApplication2.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :mona_test_application,
+      app: :mona_test_application2,
       version: "0.1.0",
       build_path: "../../_build",
       config_path: "../../config/config.exs",

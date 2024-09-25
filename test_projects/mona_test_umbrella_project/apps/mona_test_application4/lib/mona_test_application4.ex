@@ -1,6 +1,6 @@
-defmodule MonaTestApplication do
+defmodule MonaTestApplication4 do
   @moduledoc """
-  Documentation for `MonaTestApplication`.
+  Documentation for `MonaTestApplication4`.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule MonaTestApplication do
 
   ## Examples
 
-      iex> MonaTestApplication.hello()
+      iex> MonaTestApplication4.hello()
       :world
 
   """

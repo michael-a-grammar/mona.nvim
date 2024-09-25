@@ -20,7 +20,7 @@ erl_crash.dump
 *.ez
 
 # Ignore package tarball (built via "mix hex.build").
-mona_test_application-*.tar
+mona_test_application1-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
