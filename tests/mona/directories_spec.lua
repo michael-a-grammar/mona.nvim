@@ -25,10 +25,10 @@ describe('mona.directories', function()
     it('should return the current application directory', function()
       vim.api.nvim_set_current_dir(mona_test_umbrella_project_directory)
 
+      vim.cmd('edit apps/mona_test_application1/lib/mona_test_application1.ex')
+
       local expected_application_directory = mona_test_umbrella_project_directory
         .. '/apps/mona_test_application1'
-
-      vim.cmd('edit apps/mona_test_application1/lib/mona_test_application1.ex')
 
       local application_directory = directories.application()
 
