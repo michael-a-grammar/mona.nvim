@@ -11,8 +11,6 @@ describe('mona.directories', function()
 
   describe('project', function()
     it('should return the elixir project directory', function()
-      vim.api.nvim_set_current_dir(mona_test_project_directory)
-
       local expected_project_directory = mona_test_project_directory
 
       vim.api.nvim_set_current_dir(mona_test_project_directory .. '/lib')
