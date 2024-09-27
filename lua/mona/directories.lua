@@ -2,6 +2,8 @@ local Path = require('plenary.path')
 
 local M = {}
 
+local git_directory_name = _G.TEST and '_git' or '.git'
+
 local get_current_working_directory = function()
   return Path:new(vim.fn.getcwd())
 end
@@ -19,7 +21,7 @@ end
 M.project = function()
   local current_working_directory = get_current_working_directory()
 
-  local git_path = current_working_directory:find_upwards('.git')
+  local git_path = current_working_directory:find_upwards(git_directory_name)
 
   if git_path == nil then
     return false
