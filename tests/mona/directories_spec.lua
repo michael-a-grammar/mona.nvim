@@ -1,7 +1,7 @@
 describe('mona.directories', function()
   local directories = require('mona.directories')
 
-  local current_working_directory = vim.fn.getcwd() .. '/mona.nvim'
+  local current_working_directory = vim.fn.getcwd()
 
   local mona_test_project_directory = current_working_directory
     .. '/test_projects/mona_test_project'
