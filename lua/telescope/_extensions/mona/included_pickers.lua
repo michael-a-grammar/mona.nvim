@@ -1,7 +1,12 @@
 return function(opts)
   local finders = require('telescope.finders')
+  local actions = require('telescope.actions')
+  local action_set = require('telescope.actions.set')
+  local action_state = require('telescope.actions.state')
 
   local utils = require('telescope._extensions.mona.utils')
+
+  local notify = require('mona.notify').for_telescope('included_pickers')()
 
   opts.prompt_title = ' ' .. 'mona'
 
@@ -32,6 +37,29 @@ return function(opts)
           }
         end,
       }),
+
+      attach_mappings = function(_)
+        actions.select_default:replace(function(prompt_bufnr)
+          local selection = action_state.get_selected_entry()
+
+          if not selection then
+            notify.warn({
+              message = 'no selected picker',
+              notify_once = true,
+            })
+
+            return
+          end
+
+          actions.close(prompt_bufnr)
+
+          vim.schedule(function()
+            selection.value[2]()
+          end)
+        end)
+
+        return true
+      end,
 
       sorter = config.values.generic_sorter(merged_config),
     })

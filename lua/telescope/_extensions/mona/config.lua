@@ -18,8 +18,6 @@ local defaults = function()
   M.included_pickers = _G._TelescopeMonaPickers
 end
 
-defaults()
-
 local deep_extend_tables = function(table1, table2)
   return vim.tbl_deep_extend('force', table1, table2)
 end
@@ -98,5 +96,7 @@ M.reset = function()
 
   defaults()
 end
+
+defaults()
 
 return M

@@ -44,7 +44,7 @@ M.application = function()
 
   local mix_path = buffer_directory:find_upwards('mix.exs')
 
-  if not mix_path:exists() then
+  if not mix_path or not mix_path:exists() then
     return false
   end
 
