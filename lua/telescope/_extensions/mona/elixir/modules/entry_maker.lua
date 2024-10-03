@@ -1,8 +1,9 @@
 return function(entry)
-  local module = require('mona.ripgrep.results.elixir').module(entry) or {}
+  local module = require('mona.ripgrep.results.elixir').module(entry)
 
   if
-    not module.column_number
+    not module
+    or not module.column_number
     or not module.module_name
     or not module.line_number
     or not module.path

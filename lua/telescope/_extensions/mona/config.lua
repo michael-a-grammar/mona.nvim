@@ -40,7 +40,13 @@ local get_theme_config = function(picker_opts, picker_config, config)
   end
 
   if theme then
-    return require('telescope.themes')['get_' .. theme]()
+    local themes = require('telescope.themes')
+
+    local theme_fn = themes['get_' .. theme]
+
+    if theme_fn then
+      return theme_fn()
+    end
   end
 
   return {}

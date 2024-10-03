@@ -25,13 +25,14 @@ local notify_factory = function(mod_name, mod_name_suffix)
     local notify = {}
 
     for log_level, log_level_value in pairs(vim.log.levels) do
-      notify[string.lower(log_level)] = function(opts)
+      notify[string.lower(log_level)] = function(message, opts)
+        opts = opts or {}
+
         local notify_once = vim.F.if_nil(opts.notify_once, false)
 
         local notify_fn = notify_once and vim.notify_once or vim.notify
 
-        local message =
-          format_message(opts.message, mod_name, mod_name_suffix, fn_name)
+        message = format_message(message, mod_name, mod_name_suffix, fn_name)
 
         notify_fn(message, log_level_value, {
           title = 'mona.nvim',
