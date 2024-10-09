@@ -1,17 +1,19 @@
 local M = {}
 
-M.modules = function(directory, tests)
-   local glob = tests and "*_test.exs" or "*.ex"
+function M.modules(directory, tests)
+  local factory = require("mona.ripgrep.args.factory")
 
-   local regexp =
-      string.format("defmodule ([a-zA-Z.]*%s) do$", tests and "Test" or "")
+  local glob = tests and "*_test.exs" or "*.ex"
 
-   return require("mona.ripgrep.args.factory")({
-      directory = directory,
-      glob = glob,
-      replace = "$1",
-      regexp = regexp,
-   }).default()
+  local regexp =
+    string.format("defmodule ([a-zA-Z.]*%s) do$", tests and "Test" or "")
+
+  return factory.default({
+    directory = directory,
+    glob = glob,
+    replace = "$1",
+    regexp = regexp,
+  })
 end
 
 return M
