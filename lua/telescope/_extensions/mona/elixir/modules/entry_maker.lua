@@ -1,26 +1,28 @@
 local M = {}
 
-function M.make(entry)
-   local module = require("mona.ripgrep.results.elixir").module(entry)
+local mt = {
+  __call = function(_, entry)
+    local module = require("mona.ripgrep.results.elixir").module(entry)
 
-   if
+    if
       not module
       or not module.column_number
       or not module.module_name
       or not module.line_number
       or not module.path
-   then
+    then
       return false
-   end
+    end
 
-   return {
+    return {
       col = module.column_number,
       display = module.module_name,
       lnum = module.line_number,
       ordinal = module.module_name,
       path = module.path,
       value = entry,
-   }
-end
+    }
+  end,
+}
 
-return M
+return setmetatable(M, mt)

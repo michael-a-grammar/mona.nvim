@@ -1,20 +1,28 @@
-return function(opts)
-   if not opts then
+local M = {}
+
+local mt = {
+  __call = function(_, opts)
+    if not opts then
       return false
-   end
+    end
 
-   local async_oneshot_finder = require("telescope.finders.async_oneshot_finder")
+    local async_oneshot_finder =
+      require("telescope.finders.async_oneshot_finder")
 
-   local entry_maker = require("telescope._extensions.mona.elixir.modules.entry_maker")
+    local entry_maker =
+      require("telescope._extensions.mona.elixir.modules.entry_maker")
 
-   return async_oneshot_finder({
-      fn_command = function()
-         return {
-            command = "rg",
-            args = opts.vimgrep_arguments,
-         }
-      end,
-
+    return async_oneshot_finder({
       entry_maker = entry_maker,
-   })
-end
+
+      fn_command = function()
+        return {
+          args = opts.vimgrep_arguments,
+          command = "rg",
+        }
+      end,
+    })
+  end,
+}
+
+return setmetatable(M, mt)
