@@ -35,6 +35,16 @@ return {
 
   keys = {
     {
+      '<localleader>mm',
+      function()
+        require('telescope').extensions.mona.pickers()
+      end,
+      desc = 'Browse Pickers',
+      ft = 'elixir',
+      mode = { 'n', 'x' },
+    },
+
+    {
       '<localleader>mp',
       function()
         require('telescope').extensions.mona.elixir_project_modules()

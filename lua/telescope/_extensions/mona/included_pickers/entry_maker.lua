@@ -10,10 +10,10 @@ local mt = {
     local picker_name = entry[1]
 
     if not picker_name or picker_name == "" then
-        notify.warn({
-          message = "table value is nil or empty, table: " .. vim.inspect(entry),
-          notify_once = true,
-        })
+      notify.warn({
+        message = "table value is nil or empty, table: " .. vim.inspect(entry),
+        notify_once = true,
+      })
     end
 
     local picker_display_name = ""
