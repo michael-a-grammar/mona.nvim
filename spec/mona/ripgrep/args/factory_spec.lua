@@ -13,7 +13,7 @@ describe("mona.ripgrep.args.factory", function()
       "--replace",
       "$1",
       "--regexp",
-      "defmodule ([a-zA-Z.]*) do$",
+      "defmodule ([a-zA-Z0-9.]*) do$",
       "mona_test_umbrella_project",
     }
 
@@ -21,7 +21,7 @@ describe("mona.ripgrep.args.factory", function()
       directory = "mona_test_umbrella_project",
       glob = "*.ex",
       replace = "$1",
-      regexp = "defmodule ([a-zA-Z.]*) do$",
+      regexp = "defmodule ([a-zA-Z0-9.]*) do$",
     })
 
     assert.same(expected_args, args)

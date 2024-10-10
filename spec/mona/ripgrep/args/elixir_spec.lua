@@ -16,7 +16,7 @@ describe("mona.ripgrep.args.elixir", function()
         "--replace",
         "$1",
         "--regexp",
-        "defmodule ([a-zA-Z.]*) do$",
+        "defmodule ([a-zA-Z0-9.]*) do$",
         "mona_test_umbrella_project",
       }
 
@@ -37,7 +37,7 @@ describe("mona.ripgrep.args.elixir", function()
         "--replace",
         "$1",
         "--regexp",
-        "defmodule ([a-zA-Z.]*Test) do$",
+        "defmodule ([a-zA-Z0-9.]*Test) do$",
         "mona_test_umbrella_project",
       }
 

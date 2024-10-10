@@ -35,7 +35,7 @@ return {
 
   keys = {
     {
-      '<leader>mp',
+      '<localleader>mp',
       function()
         require('telescope').extensions.mona.elixir_project_modules()
       end,
@@ -45,7 +45,7 @@ return {
     },
 
     {
-      '<leader>ma',
+      '<localleader>ma',
       function()
         require('telescope').extensions.mona.elixir_application_modules()
       end,
@@ -55,7 +55,7 @@ return {
     },
 
     {
-      '<leader>mb',
+      '<localleader>mb',
       function()
         require('telescope').extensions.mona.elixir_buffer_directory_modules()
       end,
@@ -65,7 +65,7 @@ return {
     },
 
     {
-      '<leader>mtp',
+      '<localleader>mtp',
       function()
         require('telescope').extensions.mona.elixir_project_tests()
       end,
@@ -75,7 +75,7 @@ return {
     },
 
     {
-      '<leader>mta',
+      '<localleader>mta',
       function()
         require('telescope').extensions.mona.elixir_application_tests()
       end,
@@ -85,7 +85,7 @@ return {
     },
 
     {
-      '<leader>mtb',
+      '<localleader>mtb',
       function()
         require('telescope').extensions.mona.elixir_buffer_directory_tests()
       end,
@@ -97,21 +97,18 @@ return {
 }
 ```
 
-- Alternatively, rather than utilising an anonymous function wrapper, you can call a `telescope` picker within a keymap via the following syntax 
-
-`<cmd>Telescope mona elixir_project_modules<cr>`
-
-- Or you can call a `telescope` picker directly using the following `vim` command
-
-`:Telescope mona elixir_project_modules`
-
-> [!TIP]
-You can load the `telescope` extension early within your `telescope` configuration to get tab completion when typing the above `vim` command, example below
+Next, add the following to your `telescope`*plugin spec*  to load the `mona` `telescope` extension
 
 ```lua
-local telescope = require('telescope')
+{
+  config = function(_, opts)
+    local telescope = require('telescope')
 
-telescope.load_extension('mona')
+    ...
+
+    telescope.load_extension('mona')
+  end
+}
 ```
 
 `mona` also supports `telescope`-specific configuration being set as a part of the `telescope` _plugin spec_ 
@@ -132,7 +129,7 @@ return {
       
       extensions = {
         mona = {
-          theme = 'ivy',
+          theme = 'dropdown',
         },
       },
     },
@@ -144,9 +141,9 @@ You can also pass such configuration directly into the function call of a releva
 
 ```lua
 require('telescope').extensions.mona.elixir_project_modules(
-  require('telescope.themes').get_ivy({
+  require('telescope.themes').get_dropdown({
     layout_config = {
-      height = 35
+      height = 100
     },
   })
 )

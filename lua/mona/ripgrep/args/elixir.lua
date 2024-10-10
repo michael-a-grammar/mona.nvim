@@ -6,7 +6,7 @@ function M.modules(directory, tests)
   local glob = tests and "*_test.exs" or "*.ex"
 
   local regexp =
-    string.format("defmodule ([a-zA-Z.]*%s) do$", tests and "Test" or "")
+    string.format("defmodule ([a-zA-Z0-9.]*%s) do$", tests and "Test" or "")
 
   return factory.default({
     directory = directory,

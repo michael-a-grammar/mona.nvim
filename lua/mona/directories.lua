@@ -6,15 +6,18 @@ local notify_factory = require("mona.notify").for_mona("directories")
 
 local git_directory_name = _G.TEST and "_git" or ".git"
 
+local function is_path_valid(path)
+  return path and path["exists"] and path:exists()
+end
+
 local function get_current_working_directory()
   return Path:new(vim.fn.getcwd())
 end
 
 local function get_buffer_directory()
-  -- TODO: check current buffer is a file
   local bufname_path = Path:new(vim.fn.bufname()):parent()
 
-  if not bufname_path:exists() then
+  if not is_path_valid(bufname_path) then
     return false
   end
 
@@ -28,7 +31,7 @@ function M.project()
 
   local git_path = current_working_directory:find_upwards(git_directory_name)
 
-  if not git_path then
+  if not is_path_valid(git_path) then
     notify.warn(
       "can not find git directory, current working directory: "
         .. current_working_directory.filename
@@ -39,7 +42,7 @@ function M.project()
   local project_path = git_path:parent()
   local mix_path = Path:new(project_path.filename .. "/mix.exs")
 
-  if not mix_path:exists() then
+  if not is_path_valid(mix_path) then
     notify.warn(
       "can not find mix.exs file, current working directory: "
         .. current_working_directory.filename
@@ -61,7 +64,7 @@ function M.application()
 
   local mix_path = buffer_directory:find_upwards("mix.exs")
 
-  if not mix_path or not mix_path["exists"] or not mix_path:exists() then
+  if not is_path_valid(mix_path) then
     notify.warn(
       "can not find mix.exs file, buffer directory: "
         .. buffer_directory.filename
