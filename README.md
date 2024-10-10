@@ -7,8 +7,7 @@
 A set of `elixir` extensions and configuration for [neovim](https://neovim.io/)!
 
 > [!IMPORTANT]
-**Please note** that this is not a replacement for the various LSP implementations available for `elixir`; it is solely some
-goodies that I find nice when programming with my favourite language in my favourite editor
+**Please note** that this is not a replacement for the various LSP implementations available for `elixir`; it is solely some goodies that I find nice when programming with my favourite language in my favourite editor
 
 As `mona` doesn't use any fancy LSP shenanigans, it is blindingly fast (thanks to `ripgrep`!) but may prove to be naive in implementation
 
@@ -108,7 +107,6 @@ return {
   }
 }
 ```
-
 Next, add the following to your `telescope` *plugin spec*  to load the `mona` `telescope` extension
 
 ```lua
@@ -152,7 +150,6 @@ return {
   },
 }
 ```
-
 You can also pass such configuration directly into the function call of a relevant picker like so
 
 ```lua
