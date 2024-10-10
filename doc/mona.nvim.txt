@@ -126,7 +126,7 @@ _plugin spec_ utilising lazy loading and filetype-specific keymaps
     }
 <
 
-Next, add the following to your `telescope`_plugin spec_ to load the `mona`
+Next, add the following to your `telescope` _plugin spec_ to load the `mona`
 `telescope` extension
 
 >lua
