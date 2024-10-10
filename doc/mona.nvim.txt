@@ -191,12 +191,12 @@ TELESCOPE PICKERS                      *mona.nvim-mona.nvim-telescope-pickers*
 find relevant results, disclosed below
 
 
-pickers                                                              *pickers*
+PICKERS
 
 A picker which lists all of the below pickers
 
 
-elixir_project_modules                                *elixir_project_modules*
+ELIXIR_PROJECT_MODULES
 
 To discern the root, _project_ directory:
 
@@ -210,7 +210,7 @@ To discern the root, _project_ directory:
     definitions
 
 
-elixir_application_modules                        *elixir_application_modules*
+ELIXIR_APPLICATION_MODULES
 
 To discern the _application_ directory:
 
@@ -223,14 +223,14 @@ To discern the _application_ directory:
     definitions
 
 
-elixir_buffer_directory_modules              *elixir_buffer_directory_modules*
+ELIXIR_BUFFER_DIRECTORY_MODULES
 
 From the current _buffer_ directory, a simple `ripgrep` query is launched to
 populate a `telescope` picker with every descendant `.ex` file that contains
 one or more module definitions
 
 
-tests                                                                  *tests*
+TESTS
 
 There are also equivalents to each of the above available specifically for
 tests
