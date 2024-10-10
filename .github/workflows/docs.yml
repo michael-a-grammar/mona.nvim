@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: kdheepak/panvimdoc@main
         with:
-          vimdoc: "mona"
+          vimdoc: ${{ github.event.repository.name }}
           docmapping: true
           docmappingprojectname: false
           demojify: true
