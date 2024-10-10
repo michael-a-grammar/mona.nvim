@@ -1,4 +1,4 @@
-local M
+local M = {}
 
 local mt = {
   __call = function(_)

@@ -14,7 +14,7 @@ local mt = {
 
     return pickers
       .new(merged_config, {
-        attach_mappings = attach_mappings(),
+        attach_mappings = attach_mappings,
         finder = finder(merged_config),
         sorter = config.values.generic_sorter(merged_config),
       })

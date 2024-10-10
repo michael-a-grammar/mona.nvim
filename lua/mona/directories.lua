@@ -11,6 +11,7 @@ local function get_current_working_directory()
 end
 
 local function get_buffer_directory()
+  -- TODO: check current buffer is a file
   local bufname_path = Path:new(vim.fn.bufname()):parent()
 
   if not bufname_path:exists() then
@@ -60,7 +61,7 @@ function M.application()
 
   local mix_path = buffer_directory:find_upwards("mix.exs")
 
-  if not mix_path or not mix_path:exists() then
+  if not mix_path or not mix_path["exists"] or not mix_path:exists() then
     notify.warn(
       "can not find mix.exs file, buffer directory: "
         .. buffer_directory.filename
