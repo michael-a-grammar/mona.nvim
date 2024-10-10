@@ -5,11 +5,24 @@ M.tests = {}
 local function make(directory_name, tests, opts)
   opts = opts or {}
 
+  local notify =
+    require("mona.notify").for_telescope("elixir.modules.factory")()
+
   local utils = require("telescope._extensions.mona.utils")
 
-  local directory = require("mona.directories")[directory_name]()
+  local directories = require("mona.directories")
+
+  local directory_fn = directories[directory_name]
+
+  if not directory_fn then
+    notify.warn("can not find directory name key on the mona.directories module, directory name: " .. directory_name)
+    return false
+  end
+
+  local directory = directory_fn()
 
   if not directory then
+    notify.warn("can not find directory, directory name: " .. directory_name)
     return false
   end
 

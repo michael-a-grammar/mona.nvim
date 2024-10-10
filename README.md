@@ -100,9 +100,13 @@ return {
 Next, add the following to your `telescope`*plugin spec*  to load the `mona` `telescope` extension
 
 ```lua
-{
+return {
+  'nvim-telescope/telescope.nvim',
+
+  ...
+
   config = function(_, opts)
-    local telescope = require('telescope')
+   local telescope = require('telescope')
 
     ...
 
@@ -119,13 +123,13 @@ Here is an example that changes the default theme of all the `telescope` pickers
 return {
   'nvim-telescope/telescope.nvim',
 
-   ...
+  ...
 
-   opts = {
-     defaults = {
-       mappings = {
-         ...
-       },
+  opts = {
+    defaults = {
+      mappings = {
+        ...
+      },
       
       extensions = {
         mona = {
@@ -142,9 +146,7 @@ You can also pass such configuration directly into the function call of a releva
 ```lua
 require('telescope').extensions.mona.elixir_project_modules(
   require('telescope.themes').get_dropdown({
-    layout_config = {
-      height = 100
-    },
+    ...
   })
 )
 ```
@@ -152,6 +154,10 @@ require('telescope').extensions.mona.elixir_project_modules(
 ## 🔭 Telescope Pickers
 
 `mona` exposes the following `telescope` pickers, each relying on convention to find relevant results, disclosed below
+
+#### pickers
+
+A picker which lists all of the below pickers
 
 #### elixir_project_modules
 

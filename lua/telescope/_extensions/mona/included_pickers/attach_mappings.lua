@@ -13,17 +13,26 @@ local mt = {
 
       if not selection then
         notify.warn({
-          message = "no selected picker",
+          message = "no selection",
           notify_once = true,
         })
 
         return false
       end
 
+      local picker = selection.value[2]
+
+      if not picker and type(picker) ~= "function" then
+        notify.warn({
+          message = "can not find selected value",
+          notify_once = true,
+        })
+      end
+
       actions.close(prompt_bufnr)
 
       vim.schedule(function()
-        selection.value[2]()
+        picker()
       end)
     end)
 

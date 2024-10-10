@@ -12,8 +12,6 @@ local mt = {
     local entry_maker =
       require("telescope._extensions.mona.elixir.modules.entry_maker")
 
-    vim.print(vim.inspect(opts.vimgrep_arguments))
-
     return async_oneshot_finder({
       entry_maker = entry_maker,
 

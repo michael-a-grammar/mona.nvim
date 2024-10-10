@@ -2,6 +2,9 @@ local M = {}
 
 local mt = {
   __call = function(_, entry)
+    local notify =
+      require("mona.notify").for_telescope("elixir.modules.entry_maker")()
+
     local module = require("mona.ripgrep.results.elixir").module(entry)
 
     if
@@ -11,6 +14,7 @@ local mt = {
       or not module.line_number
       or not module.path
     then
+      notify.warn("table value is nil or empty, table: " .. vim.inspect(module))
       return false
     end
 
