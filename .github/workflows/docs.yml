@@ -19,8 +19,6 @@ jobs:
       - uses: kdheepak/panvimdoc@main
         with:
           vimdoc: ${{ github.event.repository.name }}
-          docmapping: true
-          docmappingprojectname: false
           demojify: true
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
