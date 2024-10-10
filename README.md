@@ -1,7 +1,7 @@
 # 🧪 mona.nvim
 
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/michael-a-grammar/mona.nvim/lint-test.yml?branch=develop&style=for-the-badge)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/michael-a-grammar/mona.nvim/lint-test.yml?branch=main&style=for-the-badge)
 ![Lua](https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua)
 ![Neovim](https://img.shields.io/badge/NeoVim-%2357A143.svg?&style=for-the-badge&logo=neovim&logoColor=white)
 
