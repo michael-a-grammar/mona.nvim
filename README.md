@@ -109,7 +109,7 @@ return {
 }
 ```
 
-Next, add the following to your `telescope`*plugin spec*  to load the `mona` `telescope` extension
+Next, add the following to your `telescope` *plugin spec*  to load the `mona` `telescope` extension
 
 ```lua
 return {
