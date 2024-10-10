@@ -172,6 +172,8 @@ require('telescope').extensions.mona.elixir_project_modules(
 
 A picker which lists all of the below pickers
 
+They each rely on convention to find relevant results, disclosed below
+
 #### elixir_project_modules
 
 To discern the root, _project_ directory:
