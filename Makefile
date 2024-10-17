@@ -1,7 +1,13 @@
 TESTS_INIT=spec/minimal_init.lua
 TESTS_DIR=spec/
 
+.PHONY: format
 .PHONY: test
+
+format:
+	@stylua \
+		lua/ \
+		spec/
 
 test:
 	@nvim \

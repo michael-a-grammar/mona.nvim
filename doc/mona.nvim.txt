@@ -41,14 +41,14 @@ plugin spec utilising lazy loading and filetype-specific keymaps
 >lua
     return {
       'michael-a-grammar/mona.nvim',
-    
+
       ft = 'elixir',
-    
+
       dependencies = {
         'nvim-lua/plenary.nvim',
         'nvim-telescope/telescope.nvim',
       },
-    
+
       keys = {
         {
           '<localleader>mm',
@@ -59,7 +59,7 @@ plugin spec utilising lazy loading and filetype-specific keymaps
           ft = 'elixir',
           mode = { 'n', 'x' },
         },
-    
+
         {
           '<localleader>mp',
           function()
@@ -69,7 +69,7 @@ plugin spec utilising lazy loading and filetype-specific keymaps
           ft = 'elixir',
           mode = { 'n', 'x' },
         },
-    
+
         {
           '<localleader>ma',
           function()
@@ -79,7 +79,7 @@ plugin spec utilising lazy loading and filetype-specific keymaps
           ft = 'elixir',
           mode = { 'n', 'x' },
         },
-    
+
         {
           '<localleader>mb',
           function()
@@ -89,7 +89,7 @@ plugin spec utilising lazy loading and filetype-specific keymaps
           ft = 'elixir',
           mode = { 'n', 'x' },
         },
-    
+
         {
           '<localleader>mtp',
           function()
@@ -99,7 +99,7 @@ plugin spec utilising lazy loading and filetype-specific keymaps
           ft = 'elixir',
           mode = { 'n', 'x' },
         },
-    
+
         {
           '<localleader>mta',
           function()
@@ -109,7 +109,7 @@ plugin spec utilising lazy loading and filetype-specific keymaps
           ft = 'elixir',
           mode = { 'n', 'x' },
         },
-    
+
         {
           '<localleader>mtb',
           function()
@@ -129,14 +129,14 @@ Next, add the following to your `telescope` plugin spec to load the `mona`
 >lua
     return {
       'nvim-telescope/telescope.nvim',
-    
+
       ...
-    
+
       config = function(_, opts)
        local telescope = require('telescope')
-    
+
         ...
-    
+
         telescope.load_extension('mona')
       end
     }
@@ -151,15 +151,15 @@ pickers exposed by `mona`
 >lua
     return {
       'nvim-telescope/telescope.nvim',
-    
+
       ...
-    
+
       opts = {
         defaults = {
           mappings = {
             ...
           },
-          
+
           extensions = {
             mona = {
               theme = 'dropdown',
@@ -194,7 +194,7 @@ to find relevant results, disclosed below
       {opts} (table)  Picker configuration
 		      Please see |telescope.nvim| for more details
 
-                            *telescope.extensions.mona.elixir_project_modules* 
+                            *telescope.extensions.mona.elixir_project_modules*
 `elixir_project_modules``(`{opts}`)`
     Displays modules (excluding tests and scripts) within the current project
     directory
@@ -211,7 +211,7 @@ to find relevant results, disclosed below
     From here, a simple `ripgrep` query is launched to populate a `telescope`
     picker with every descendant .ex file that contains one or more module
     definitions
-    
+
     Parameters: ~
       {opts} (table)  Picker configuration
 		      Please see |telescope.nvim| for more details
