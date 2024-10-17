@@ -54,8 +54,9 @@ local function get_test_file()
     return false
   end
 
-  local test_file =
-    buffer_file:gsub("/lib/", "/test/"):gsub("%.ex", "_test.exs")
+  local test_file = string.gsub(buffer_file, "/lib/", "/test/")
+
+  test_file = string.gsub(test_file, "%.ex", "_test.exs")
 
   return Path:new(test_file)
 end

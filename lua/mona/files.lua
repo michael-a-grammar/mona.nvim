@@ -16,7 +16,7 @@ function M.buffer()
     return false
   end
 
-  return Path:new(buffer_file)
+  return buffer_file
 end
 
 local mt = {
@@ -26,7 +26,7 @@ local mt = {
     return {
       buffer = {
         exists = utils.paths.exists(buffer_file),
-        path = buffer_file and buffer_file.filename or "",
+        path = buffer_file,
       },
     }
   end,

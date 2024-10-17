@@ -3,7 +3,7 @@ local M = {}
 M.paths = {}
 
 function M.paths.exists(path)
-  if not path then
+  if not path or path == "" then
     return false
   end
 
@@ -11,11 +11,7 @@ function M.paths.exists(path)
     path = require("plenary.path"):new(path)
   end
 
-  return path
-    and path["exists"]
-    and path["filename"]
-    and path:exists()
-    and path.filename ~= ""
+  return path and path["exists"] and path:exists()
 end
 
 return M
