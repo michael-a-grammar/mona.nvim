@@ -14,6 +14,7 @@ local mt = {
         message = "table value is nil or empty, table: " .. vim.inspect(entry),
         notify_once = true,
       })
+      return false
     end
 
     local picker_display_name = ""

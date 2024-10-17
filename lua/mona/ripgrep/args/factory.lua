@@ -13,7 +13,7 @@ local function insert_if(condition, arg, args, exclude_prefix)
 end
 
 local function insert_arg_with_value(arg, args, opts)
-  local key = string.gsub(arg, "-", "_")
+  local key = string.gsub(arg, "%-", "_")
 
   local arg_value = opts[key]
 
@@ -21,26 +21,29 @@ local function insert_arg_with_value(arg, args, opts)
   insert_if(arg_value, arg_value, args, true)
 end
 
-function M.default(opts)
-  local args = {}
+local mt = {
+  __call = function(_, opts)
+    local args = {}
 
-  for _, arg in ipairs({
-    "case-sensitive",
-    "trim",
-    "vimgrep",
-    "with-filename",
-    "word-regexp",
-  }) do
-    insert_arg(arg, args)
-  end
+    for _, arg in ipairs({
+      "case-sensitive",
+      "color",
+      "trim",
+      "vimgrep",
+      "with-filename",
+      "word-regexp",
+    }) do
+      insert_arg(arg, args)
+    end
 
-  for _, arg in ipairs({ "glob", "replace", "regexp" }) do
-    insert_arg_with_value(arg, args, opts)
-  end
+    for _, arg in ipairs({ "glob", "replace", "regexp" }) do
+      insert_arg_with_value(arg, args, opts)
+    end
 
-  insert_arg(opts.directory, args, true)
+    insert_arg(opts.directory, args, true)
 
-  return args
-end
+    return args
+  end,
+}
 
-return M
+return setmetatable(M, mt)

@@ -3,7 +3,7 @@ local M = {}
 M.string = {}
 
 function M.string.capitalise(str)
-  return (str:gsub("^%l", string.upper))
+  return (string.gsub(str, "%L", string.upper))
 end
 
 return M

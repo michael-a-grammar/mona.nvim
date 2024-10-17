@@ -16,7 +16,6 @@ local mt = {
           message = "no selection",
           notify_once = true,
         })
-
         return false
       end
 
@@ -27,6 +26,7 @@ local mt = {
           message = "can not find selected value",
           notify_once = true,
         })
+        return false
       end
 
       actions.close(prompt_bufnr)

@@ -16,7 +16,7 @@ local function make(directory_name, tests, opts)
 
   if not directory_fn then
     notify.warn(
-      "can not find directory name key on the mona.directories module, directory name: "
+      "can not find directory function key on the mona.directories module, directory function name: "
         .. directory_name
     )
     return false
