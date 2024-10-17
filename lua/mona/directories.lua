@@ -1,107 +1,230 @@
 local M = {}
 
-local Path = require("plenary.path")
+local mod_name, _ = ...
 
-local notify_factory = require("mona.notify").for_mona("directories")
+return setmetatable({}, {
+  __call = function(_, opts)
+    opts = opts or {}
 
-local git_directory_name = _G.TEST and "_git" or ".git"
+    local git_directory_name = opts.git_directory_name or ".git"
 
-local function is_path_valid(path)
-  return path and path["exists"] and path:exists()
-end
+    local mix_file_name = opts.mix_file_name or "mix.exs"
 
-local function get_current_working_directory()
-  return Path:new(vim.fn.getcwd())
-end
+    local Path = require("plenary.path")
 
-local function get_buffer_directory()
-  local bufname_path = Path:new(vim.fn.bufname()):parent()
+    local notify_factory = require("mona.notify").factory(mod_name)
 
-  if not is_path_valid(bufname_path) then
-    return false
-  end
+    local files = require("mona.files")
 
-  return bufname_path
-end
+    local utils = require("mona.utils")
 
-function M.project()
-  local notify = notify_factory("project")
+    local function get_working_directory()
+      return Path:new(vim.loop.cwd())
+    end
 
-  local current_working_directory = get_current_working_directory()
+    local function get_buffer_directory()
+      local buffer_file = files.buffer()
 
-  local git_path = current_working_directory:find_upwards(git_directory_name)
+      if not buffer_file then
+        return false
+      end
 
-  if not is_path_valid(git_path) then
-    notify.warn(
-      "can not find git directory, current working directory: "
-        .. current_working_directory.filename
+      local buffer_directory = Path:new(buffer_file):parent()
+
+      return buffer_directory
+    end
+
+    local function get_child_directory(
+      directory_fn,
+      directory_name,
+      child_directory_name,
+      notify_message_prefix,
+      notify
     )
-    return false
-  end
+      if not notify_message_prefix then
+        notify_message_prefix = ""
+      end
 
-  local project_path = git_path:parent()
-  local mix_path = Path:new(project_path.filename .. "/mix.exs")
+      local directory = directory_fn()
 
-  if not is_path_valid(mix_path) then
-    notify.warn(
-      "can not find mix.exs file, current working directory: "
-        .. current_working_directory.filename
-    )
-    return false
-  end
+      if not directory then
+        return false
+      end
 
-  return project_path.filename
-end
+      notify = notify
+        or notify_factory(directory_name .. "_" .. child_directory_name)
 
-function M.application()
-  local notify = notify_factory("application")
+      local child_directory = Path:new({ directory, child_directory_name })
 
-  local buffer_directory = get_buffer_directory()
+      if not utils.paths.exists(child_directory) then
+        notify(
+          string.format(
+            "%scan not find %s %s directory",
+            notify_message_prefix,
+            directory_name,
+            child_directory_name
+          ),
+          {
+            directory = directory,
+          }
+        )
+        return false
+      end
 
-  if not buffer_directory then
-    return notify.warn("can not find buffer directory")
-  end
+      return child_directory.filename
+    end
 
-  local mix_path = buffer_directory:find_upwards("mix.exs")
+    local function get_lib_directory(directory_fn, directory_name)
+      return get_child_directory(directory_fn, directory_name, "lib")
+    end
 
-  if not is_path_valid(mix_path) then
-    notify.warn(
-      "can not find mix.exs file, buffer directory: "
-        .. buffer_directory.filename
-    )
-    return false
-  end
+    local function get_test_directory(directory_fn, directory_name)
+      return get_child_directory(directory_fn, directory_name, "test")
+    end
 
-  local application_directory = mix_path:parent().filename
+    function M.project()
+      local notify = notify_factory("project")
 
-  local project_directory = M.project()
+      local working_directory = get_working_directory()
 
-  if not project_directory then
-    return false
-  end
+      local git_directory = working_directory:find_upwards(git_directory_name)
 
-  if application_directory == project_directory then
-    notify.warn(
-      "application directory is the project directory, buffer directory: "
-        .. buffer_directory.filename
-    )
-    return false
-  end
+      if not utils.paths.exists(git_directory) then
+        notify("can not find git directory", {
+          current_working_directory = working_directory.filename,
+        })
+        return false
+      end
 
-  return application_directory
-end
+      local project_directory = git_directory:parent()
 
-function M.buffer()
-  local notify = notify_factory("buffer")
+      local mix_file = Path:new({ project_directory, mix_file_name })
 
-  local buffer_directory = get_buffer_directory()
+      if not utils.paths.exists(mix_file) then
+        notify("can not find mix.exs file", {
+          current_working_directory = working_directory.filename,
+        })
+        return false
+      end
 
-  if not buffer_directory then
-    notify.warn("can not find buffer directory")
-    return false
-  end
+      return project_directory.filename
+    end
 
-  return buffer_directory.filename
-end
+    function M.umbrella_app()
+      local buffer_directory = get_buffer_directory()
 
-return M
+      if not buffer_directory then
+        return false
+      end
+
+      local notify = notify_factory("apps")
+
+      local mix_file = buffer_directory:find_upwards(mix_file_name)
+
+      if not utils.paths.exists(mix_file) then
+        notify("can not find mix.exs file", {
+          buffer_directory = buffer_directory.filename,
+        })
+        return false
+      end
+
+      local umbrella_app_directory = mix_file:parent().filename
+
+      local project_directory = M.project()
+
+      if not project_directory then
+        return false
+      end
+
+      if umbrella_app_directory == project_directory then
+        notify(
+          "not within a umbrella app - "
+            .. "located app directory matches the project directory",
+          {
+            buffer_directory = buffer_directory.filename,
+          }
+        )
+        return false
+      end
+
+      return umbrella_app_directory
+    end
+
+    function M.umbrella_apps()
+      return get_child_directory(
+        M.project,
+        "project",
+        "apps",
+        "not within a umbrella app - ",
+        notify_factory("umbrella_apps")
+      )
+    end
+
+    function M.project_lib()
+      return get_lib_directory(M.project, "project")
+    end
+
+    function M.umbrella_app_lib()
+      return get_lib_directory(M.umbrella_apps, "umbrella_app")
+    end
+
+    function M.project_test()
+      return get_test_directory(M.project, "project")
+    end
+
+    function M.umberlla_app_test()
+      return get_test_directory(M.umbrella_apps, "app")
+    end
+
+    function M.buffer()
+      local buffer_directory = get_buffer_directory()
+
+      if not buffer_directory then
+        return false
+      end
+
+      return buffer_directory.filename
+    end
+
+    function M.is_within_umbrella_app()
+      local buffer_file = files.buffer()
+
+      if not buffer_file then
+        return false
+      end
+
+      local working_directory = get_working_directory().filename
+
+      local applications_directory = working_directory .. "/apps/"
+
+      return string.match(buffer_file, applications_directory) ~= nil
+    end
+
+    return setmetatable(M, {
+      __call = function(_)
+        local directories = {
+          app = M.umbrella_app(),
+          apps = M.umbrella_apps(),
+          app_lib = M.umbrella_app_lib(),
+          app_test = M.umberlla_app_test(),
+          buffer = M.buffer(),
+          working_directory = get_working_directory().filename,
+          project = M.project(),
+          project_lib = M.project_lib(),
+          project_test = M.project_test(),
+        }
+
+        for directory_name, directory_path in pairs(directories) do
+          directories[directory_name] = {
+            exists = utils.paths.exists(directory_path),
+            path = directory_path,
+          }
+        end
+
+        directories.is_within_umbrella_app = M.is_within_umbrella_app()
+
+        return directories
+      end,
+    })
+  end,
+})

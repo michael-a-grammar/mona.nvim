@@ -1,32 +1,30 @@
-local M = {}
+local mod_name, _ = ...
 
-local mt = {
+return setmetatable({}, {
   __call = function(_)
     local actions = require("telescope.actions")
-    local action_state = require("telescope.actions.state")
-
-    local notify =
-      require("mona.notify").for_telescope("included_pickers.attach_mappings")()
 
     actions.select_default:replace(function(prompt_bufnr)
+      local notify = require("mona.notify")(mod_name)
+
+      local action_state = require("telescope.actions.state")
+
       local selection = action_state.get_selected_entry()
 
       if not selection then
-        notify.warn({
-          message = "no selection",
+        notify("no selection", false, {
           notify_once = true,
         })
-
         return false
       end
 
       local picker = selection.value[2]
 
       if not picker and type(picker) ~= "function" then
-        notify.warn({
-          message = "can not find selected value",
+        notify("can not find selected value", false, {
           notify_once = true,
         })
+        return false
       end
 
       actions.close(prompt_bufnr)
@@ -38,6 +36,4 @@ local mt = {
 
     return true
   end,
-}
-
-return setmetatable(M, mt)
+})

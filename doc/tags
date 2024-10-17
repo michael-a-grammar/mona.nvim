@@ -1,0 +1,13 @@
+mona.contents	mona.nvim.txt	/*mona.contents*
+mona.features	mona.nvim.txt	/*mona.features*
+mona.install	mona.nvim.txt	/*mona.install*
+mona.introduction	mona.nvim.txt	/*mona.introduction*
+mona.nvim	mona.nvim.txt	/*mona.nvim*
+mona.telescope-pickers	mona.nvim.txt	/*mona.telescope-pickers*
+telescope.extensions.mona.elixir_application_modules	mona.nvim.txt	/*telescope.extensions.mona.elixir_application_modules*
+telescope.extensions.mona.elixir_application_tests	mona.nvim.txt	/*telescope.extensions.mona.elixir_application_tests*
+telescope.extensions.mona.elixir_buffer_directory_modules	mona.nvim.txt	/*telescope.extensions.mona.elixir_buffer_directory_modules*
+telescope.extensions.mona.elixir_buffer_directory_tests	mona.nvim.txt	/*telescope.extensions.mona.elixir_buffer_directory_tests*
+telescope.extensions.mona.elixir_project_modules	mona.nvim.txt	/*telescope.extensions.mona.elixir_project_modules*
+telescope.extensions.mona.elixir_project_tests	mona.nvim.txt	/*telescope.extensions.mona.elixir_project_tests*
+telescope.extensions.mona.pickers	mona.nvim.txt	/*telescope.extensions.mona.pickers*

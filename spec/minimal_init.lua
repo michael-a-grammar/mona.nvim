@@ -24,6 +24,10 @@ end
 
 vim.cmd("runtime plugin/plenary.vim")
 
-_G.TEST = true
+require("mona.config").extend({
+  vim = {
+    log_level_value = vim.log.levels.OFF,
+  },
+})
 
 require("plenary.busted")

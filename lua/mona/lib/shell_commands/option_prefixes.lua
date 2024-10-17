@@ -1,0 +1,5 @@
+return {
+  long = "--",
+  none = "",
+  short = "-",
+}

@@ -1,9 +1,9 @@
-local M = {}
-
-M.string = {}
+local M = {
+  string = {},
+}
 
 function M.string.capitalise(str)
-  return (str:gsub("^%l", string.upper))
+  return (string.gsub(str, "^%l", string.upper))
 end
 
 return M
