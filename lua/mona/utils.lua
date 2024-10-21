@@ -11,7 +11,11 @@ function M.paths.exists(path)
     path = require("plenary.path"):new(path)
   end
 
-  return path and path["exists"] and path:exists()
+  return path
+    and path["exists"]
+    and path["filename"]
+    and path:exists()
+    and path.filename ~= ""
 end
 
 return M

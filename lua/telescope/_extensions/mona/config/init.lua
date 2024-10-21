@@ -1,16 +1,12 @@
 local M = {}
 
-local defaults = function()
+local function defaults()
   M.included_pickers_name = "pickers"
 
   _G._TelescopeMonaConfig = _G._TelescopeMonaConfig
-    or {
-      pickers = {
-        [M.included_pickers_name] = {
-          theme = "dropdown",
-        },
-      },
-    }
+    or require("telescope._extensions.mona.config.defaults")(
+      M.included_pickers_name
+    )
 
   _G._TelescopeMonaPickers = _G._TelescopeMonaPickers or {}
 
@@ -18,11 +14,11 @@ local defaults = function()
   M.included_pickers = _G._TelescopeMonaPickers
 end
 
-local deep_extend_tables = function(table1, table2)
+local function deep_extend_tables(table1, table2)
   return vim.tbl_deep_extend("force", table1, table2)
 end
 
-local extend_config_values = function(opts)
+local function extend_config_values(opts)
   if not opts then
     return
   end
@@ -30,7 +26,7 @@ local extend_config_values = function(opts)
   M.values = deep_extend_tables(M.values, opts)
 end
 
-local get_theme_config = function(picker_opts, picker_config, config)
+local function get_theme_config(picker_opts, picker_config, config)
   local theme
 
   for _, opts in ipairs({ config, picker_config, picker_opts }) do
@@ -52,7 +48,7 @@ local get_theme_config = function(picker_opts, picker_config, config)
   return {}
 end
 
-function M.setup(extension_config, user_config)
+function M.extend(extension_config, user_config)
   extend_config_values(user_config)
   extend_config_values(extension_config)
 

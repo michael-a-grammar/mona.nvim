@@ -2,13 +2,7 @@ local M = {}
 
 M.module = {}
 
-local Path = require("plenary.path")
-
-local directories = require("mona.directories")
-local files = require("mona.files")
-local utils = require("mona.utils")
-
-local function get_module_name()
+function M.module.name()
   local elixir_module_name_regex = [[defmodule \([a-zA-Z0-9.]*\) do]]
 
   local line_number = vim.fn.search(elixir_module_name_regex, "bcnW")
@@ -41,49 +35,39 @@ local function get_module_name()
   return module_name
 end
 
-local function get_test_file()
-  local buffer_name = vim.fn.bufname()
+function M.module.goto_test_file(opts)
+  opts = opts or {}
 
-  if string.find(buffer_name, ".+/test/.+_test%.exs") then
+  local files = require("mona.files")
+
+  local test_file, test_file_exists = files.test()
+
+  if not test_file_exists then
+    if opts.prompt_to_create then
+    end
+
     return false
   end
 
-  local buffer_file = files.buffer()
-
-  if not utils.paths.exists(buffer_file) then
-    return false
-  end
-
-  local test_file = string.gsub(buffer_file, "/lib/", "/test/")
-
-  test_file = string.gsub(test_file, "%.ex", "_test.exs")
-
-  return Path:new(test_file)
-end
-
-function M.module.goto_test_file()
-  local test_file = get_test_file()
+  local edit_command = require("mona.vim.edit_commands").find(opts)
 
   vim.cmd("normal! m")
 
-  pcall(vim.cmd, string.format("edit %s", test_file))
+  ---@diagnostic disable-next-line: param-type-mismatch
+  pcall(vim.cmd, string.format("%s %s", edit_command, test_file))
 end
 
 local mt = {
   __call = function(_)
-    local test_file = get_test_file()
-
     return {
-      name = get_module_name(),
-
-      test_file = {
-        exists = utils.paths.exists(test_file),
-        path = test_file and test_file.filename or "",
+      module = {
+        goto_test_file = M.module.goto_test_file,
+        name = M.module.name(),
       },
     }
   end,
 }
 
-setmetatable(M.module, mt)
+setmetatable(M, mt)
 
 return M

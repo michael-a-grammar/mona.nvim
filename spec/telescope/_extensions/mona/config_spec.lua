@@ -5,7 +5,7 @@ describe("telescope._extensions.mona.config", function()
     config.reset()
   end)
 
-  describe("setup", function()
+  describe("extend", function()
     describe("merging user config with the user extension config", function()
       it("should extend exisiting dictionaries on key collision", function()
         config.values = {
@@ -53,7 +53,7 @@ describe("telescope._extensions.mona.config", function()
           },
         }
 
-        local result = config.setup(user_extension_config, user_config).values
+        local result = config.extend(user_extension_config, user_config).values
 
         assert.same(expected_result, result)
       end)
@@ -117,7 +117,8 @@ describe("telescope._extensions.mona.config", function()
             },
           }
 
-          local result = config.setup(user_extension_config, user_config).values
+          local result =
+            config.extend(user_extension_config, user_config).values
 
           assert.same(expected_result, result)
         end
@@ -164,7 +165,7 @@ describe("telescope._extensions.mona.config", function()
           },
         }
 
-        local result = config.setup(user_extension_config, user_config).values
+        local result = config.extend(user_extension_config, user_config).values
 
         assert.same(expected_result, result)
       end)
@@ -212,7 +213,8 @@ describe("telescope._extensions.mona.config", function()
             },
           }
 
-          local result = config.setup(user_extension_config, user_config).values
+          local result =
+            config.extend(user_extension_config, user_config).values
 
           assert.same(expected_result, result)
         end
@@ -244,7 +246,7 @@ describe("telescope._extensions.mona.config", function()
         },
       }
 
-      config.setup(user_extension_config, user_config)
+      config.extend(user_extension_config, user_config)
 
       local expected_result = {
         pickers = {
@@ -831,7 +833,7 @@ describe("telescope._extensions.mona.config", function()
         },
       }
 
-      config.setup(user_extension_config, user_config)
+      config.extend(user_extension_config, user_config)
 
       local expected_result = {
         pickers = {

@@ -5,15 +5,15 @@ local mt = {
     local actions = require("telescope.actions")
     local action_state = require("telescope.actions.state")
 
-    local notify =
-      require("mona.notify").for_telescope("included_pickers.attach_mappings")()
+    local notify = require("telescope._extensions.mona.notify")(
+      "included_pickers.attach_mappings"
+    )()
 
     actions.select_default:replace(function(prompt_bufnr)
       local selection = action_state.get_selected_entry()
 
       if not selection then
-        notify.warn({
-          message = "no selection",
+        notify.warn("no selection", {
           notify_once = true,
         })
         return false
@@ -22,8 +22,7 @@ local mt = {
       local picker = selection.value[2]
 
       if not picker and type(picker) ~= "function" then
-        notify.warn({
-          message = "can not find selected value",
+        notify.warn("can not find selected value", {
           notify_once = true,
         })
         return false

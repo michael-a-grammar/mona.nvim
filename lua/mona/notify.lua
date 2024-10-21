@@ -20,7 +20,7 @@ local function format_message(message, mod_name, mod_name_suffix, fn_name)
   )
 end
 
-local function notify_factory(mod_name, mod_name_suffix)
+local function factory(mod_name, mod_name_suffix)
   return function(fn_name)
     local notify = {}
 
@@ -46,12 +46,26 @@ local function notify_factory(mod_name, mod_name_suffix)
   end
 end
 
-function M.for_mona(mod_name)
-  return notify_factory("mona", mod_name)
+local function make(mod_name, mod_name_suffix, fn_name)
+  local notify_factory = factory(mod_name, mod_name_suffix)
+
+  if fn_name and fn_name ~= "" then
+    return notify_factory(fn_name)
+  end
+
+  return notify_factory
 end
 
-function M.for_telescope(mod_name)
-  return notify_factory("telescope._extensions.mona", mod_name)
+local mt = {
+  __call = function(_, mod_name_suffix, fn_name)
+    return make("mona", mod_name_suffix, fn_name)
+  end,
+}
+
+function M.for_module(mod_name)
+  return function(mod_name_suffix, fn_name)
+    return make(mod_name, mod_name_suffix, fn_name)
+  end
 end
 
-return M
+return setmetatable(M, mt)

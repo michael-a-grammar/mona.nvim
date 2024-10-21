@@ -2,8 +2,9 @@ local M = {}
 
 local mt = {
   __call = function(_, entry)
-    local notify =
-      require("mona.notify").for_telescope("elixir.modules.entry_maker")()
+    local notify = require("telescope._extensions.mona.notify")(
+      "elixir.modules.entry_maker"
+    )()
 
     local module = require("mona.ripgrep.results.elixir").module(entry)
 

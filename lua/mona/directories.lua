@@ -2,7 +2,7 @@ local M = {}
 
 local Path = require("plenary.path")
 
-local notify_factory = require("mona.notify").for_mona("directories")
+local notify_factory = require("mona.notify")("directories")
 
 local files = require("mona.files")
 local utils = require("mona.utils")
@@ -29,9 +29,11 @@ local function get_child_directory(
   directory_fn,
   directory_name,
   child_directory_name,
-  warn_message_prefix
+  notify_message_prefix,
+  notify
 )
-  local notify = notify_factory(directory_name .. "_" .. child_directory_name)
+  notify = notify
+    or notify_factory(directory_name .. "_" .. child_directory_name)
 
   local directory = directory_fn()
 
@@ -45,7 +47,7 @@ local function get_child_directory(
     notify.warn(
       string.format(
         "%scan not find %s %s directory, %s directory: %s",
-        warn_message_prefix,
+        notify_message_prefix,
         directory_name,
         child_directory_name,
         directory_name,
@@ -59,11 +61,11 @@ local function get_child_directory(
 end
 
 local function get_lib_directory(directory_fn, directory_name)
-  return get_child_directory(directory_fn, directory_name, "lib", "")
+  return get_child_directory(directory_fn, directory_name, "lib")
 end
 
 local function get_test_directory(directory_fn, directory_name)
-  return get_child_directory(directory_fn, directory_name, "test", "")
+  return get_child_directory(directory_fn, directory_name, "test")
 end
 
 function M.project()
@@ -126,7 +128,7 @@ function M.application()
   if application_directory == project_directory then
     notify.warn(
       "not within a umbrella application - "
-        .. "application directory matches the project directory, buffer directory: "
+        .. "located application directory matches the project directory, buffer directory: "
         .. buffer_directory.filename
     )
     return false
@@ -140,7 +142,8 @@ function M.applications()
     M.project,
     "project",
     "apps",
-    "not within a umbrella application - "
+    "not within a umbrella application - ",
+    notify_factory("applications")
   )
 end
 

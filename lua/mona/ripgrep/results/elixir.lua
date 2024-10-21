@@ -15,8 +15,7 @@ function M.modules(results)
 end
 
 function M.module(result)
-  local notify =
-    require("mona.notify").for_mona("ripgrep.results.elixir")("module")
+  local notify = require("mona.notify")("ripgrep.results.elixir", "module")
 
   if not result or result == "" then
     notify.warn("result is nil or empty")

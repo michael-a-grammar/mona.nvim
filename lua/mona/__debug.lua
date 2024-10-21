@@ -5,9 +5,19 @@ local mt = {
     return {
       directories = require("mona.directories")(),
       files = require("mona.files")(),
+      mona = require("mona"),
+
+      config = {
+        defaults = require("mona.config.defaults")(),
+        global = _G._MonaConfig,
+      },
 
       elixir = {
-        module = require("mona.elixir").module(),
+        module = require("mona.elixir")(),
+      },
+
+      vim = {
+        edit_commands = require("mona.vim.edit_commands"),
       },
     }
   end,

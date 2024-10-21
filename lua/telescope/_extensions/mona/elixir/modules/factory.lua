@@ -6,7 +6,7 @@ local function make(directory_name, tests, opts)
   opts = opts or {}
 
   local notify =
-    require("mona.notify").for_telescope("elixir.modules.factory")()
+    require("telescope._extensions.mona.notify")("elixir.modules.factory")()
 
   local utils = require("telescope._extensions.mona.utils")
 
