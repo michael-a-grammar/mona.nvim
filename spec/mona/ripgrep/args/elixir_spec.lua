@@ -7,6 +7,7 @@ describe("mona.ripgrep.args.elixir", function()
     it("should return ripgrep options to search for elixir modules", function()
       local expected_args = {
         "--case-sensitive",
+        "--color",
         "--trim",
         "--vimgrep",
         "--with-filename",
@@ -28,6 +29,7 @@ describe("mona.ripgrep.args.elixir", function()
     it("should return ripgrep options to search for elixir tests", function()
       local expected_args = {
         "--case-sensitive",
+        "--color",
         "--trim",
         "--vimgrep",
         "--with-filename",

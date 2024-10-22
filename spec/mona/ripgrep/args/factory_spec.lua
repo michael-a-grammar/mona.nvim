@@ -4,6 +4,7 @@ describe("mona.ripgrep.args.factory", function()
   it("should return ripgrep options", function()
     local expected_args = {
       "--case-sensitive",
+      "--color",
       "--trim",
       "--vimgrep",
       "--with-filename",
@@ -17,7 +18,7 @@ describe("mona.ripgrep.args.factory", function()
       "mona_test_umbrella_project",
     }
 
-    local args = factory.default({
+    local args = factory({
       directory = "mona_test_umbrella_project",
       glob = "*.ex",
       replace = "$1",

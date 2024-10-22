@@ -5,6 +5,8 @@ local mt = {
     local icons = require("mona.config.icons")
 
     return {
+      enable_icons = true,
+
       elixir = {
         module = {
           goto_test = {
