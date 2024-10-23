@@ -15,7 +15,9 @@ local mt = {
       or not module.line_number
       or not module.path
     then
-      notify.warn("table value is nil or empty, table: " .. vim.inspect(module))
+      notify("table value is nil or empty", {
+        table = vim.inspect(module),
+      })
       return false
     end
 

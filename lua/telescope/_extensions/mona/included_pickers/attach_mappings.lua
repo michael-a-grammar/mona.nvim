@@ -13,7 +13,7 @@ local mt = {
       local selection = action_state.get_selected_entry()
 
       if not selection then
-        notify.warn("no selection", {
+        notify("no selection", false, {
           notify_once = true,
         })
         return false
@@ -22,7 +22,7 @@ local mt = {
       local picker = selection.value[2]
 
       if not picker and type(picker) ~= "function" then
-        notify.warn("can not find selected value", {
+        notify("can not find selected value", false, {
           notify_once = true,
         })
         return false

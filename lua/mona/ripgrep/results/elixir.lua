@@ -18,7 +18,7 @@ function M.module(result)
   local notify = require("mona.notify")("ripgrep.results.elixir", "module")
 
   if not result or result == "" then
-    notify.warn("result is nil or empty")
+    notify("result is nil or empty")
     return false
   end
 
@@ -34,7 +34,9 @@ function M.module(result)
 
   for key, value in ipairs(module) do
     if not value or value == "" then
-      notify.warn("value is nil or empty, key: " .. key)
+      notify("value is nil or empty", {
+        key = key,
+      })
       return false
     end
   end

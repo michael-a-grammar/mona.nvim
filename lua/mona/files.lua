@@ -12,7 +12,9 @@ function M.buffer()
   local buffer_file = Path:new(vim.fn.bufname()):absolute()
 
   if not utils.paths.exists(buffer_file) then
-    notify.warn("can not find buffer file, buffer file: " .. buffer_file)
+    notify("can not find buffer file", {
+      buffer_file = buffer_file,
+    })
     return false
   end
 
@@ -31,7 +33,9 @@ function M.test()
   local buffer_file = M.buffer()
 
   if not utils.paths.exists(buffer_file) then
-    notify.warn("can not find buffer file, buffer file: " .. buffer_file)
+    notify("can not find buffer file", {
+      buffer_file = buffer_file,
+    })
     return false
   end
 

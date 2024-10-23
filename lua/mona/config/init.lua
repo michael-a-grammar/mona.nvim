@@ -4,6 +4,8 @@ local function defaults()
   _G._MonaConfig = _G._MonaConfig or require("mona.config.defaults")()
 
   M.values = _G._MonaConfig
+
+  return M
 end
 
 function M.extend(opts)
@@ -11,16 +13,23 @@ function M.extend(opts)
 
   M.values = vim.tbl_deep_extend("force", M.values, opts)
 
+  _G._MonaConfig = M.values
+
   return M
 end
 
 function M.log_level_value(log_level_name)
+  log_level_name = log_level_name
+      and log_level_name ~= ""
+      and string.upper(log_level_name)
+    or false
+
   local config_log_level_value = M.values.log_level
 
   for log_level, log_level_value in pairs(vim.log.levels) do
     if
       log_level_value == config_log_level_value
-      or log_level_name and string.upper(log_level_name) == log_level
+      or log_level_name == log_level
     then
       return log_level_value
     end
@@ -49,7 +58,9 @@ function M.is_extension_enabled(extension_name)
   local extension_is_enabled = M.values.extensions[extension_name]
 
   if extension_is_enabled == nil then
-    notify.warn("can not find extension, extension name: " .. extension_name)
+    notify("can not find extension", {
+      extension_name = extension_name,
+    })
     return false
   end
 

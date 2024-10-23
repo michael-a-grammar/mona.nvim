@@ -51,15 +51,17 @@ local mt = {
       local child_directory = Path:new({ directory, child_directory_name })
 
       if not utils.paths.exists(child_directory) then
-        notify.warn(
+        notify(
           string.format(
-            "%scan not find %s %s directory, %s directory: %s",
+            "%scan not find %s %s directory",
             notify_message_prefix,
             directory_name,
             child_directory_name,
-            directory_name,
-            directory
-          )
+            directory_name
+          ),
+          {
+            directory = directory,
+          }
         )
         return false
       end
@@ -84,10 +86,9 @@ local mt = {
         current_working_directory:find_upwards(git_directory_name)
 
       if not utils.paths.exists(git_directory) then
-        notify.warn(
-          "can not find git directory, current working directory: "
-            .. current_working_directory.filename
-        )
+        notify("can not find git directory", {
+          current_working_directory = current_working_directory.filename,
+        })
         return false
       end
 
@@ -95,10 +96,9 @@ local mt = {
       local mix_file = Path:new({ project_directory, mix_file_name })
 
       if not utils.paths.exists(mix_file) then
-        notify.warn(
-          "can not find mix.exs file, current working directory: "
-            .. current_working_directory.filename
-        )
+        notify("can not find mix.exs file", {
+          current_working_directory = current_working_directory.filename,
+        })
         return false
       end
 
@@ -117,10 +117,9 @@ local mt = {
       local mix_file = buffer_directory:find_upwards(mix_file_name)
 
       if not utils.paths.exists(mix_file) then
-        notify.warn(
-          "can not find mix.exs file, buffer directory: "
-            .. buffer_directory.filename
-        )
+        notify("can not find mix.exs file", {
+          buffer_directory = buffer_directory.filename,
+        })
         return false
       end
 
@@ -133,10 +132,12 @@ local mt = {
       end
 
       if application_directory == project_directory then
-        notify.warn(
+        notify(
           "not within a umbrella application - "
-            .. "located application directory matches the project directory, buffer directory: "
-            .. buffer_directory.filename
+            .. "located application directory matches the project directory",
+          {
+            buffer_directory = buffer_directory.filename,
+          }
         )
         return false
       end

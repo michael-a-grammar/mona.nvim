@@ -12,6 +12,8 @@ local function defaults()
 
   M.values = _G._TelescopeMonaConfig
   M.included_pickers = _G._TelescopeMonaPickers
+
+  return M
 end
 
 local function deep_extend_tables(table1, table2)
@@ -20,7 +22,7 @@ end
 
 local function extend_config_values(opts)
   if not opts then
-    return
+    return false
   end
 
   M.values = deep_extend_tables(M.values, opts)
@@ -51,6 +53,8 @@ end
 function M.extend(extension_config, user_config)
   extend_config_values(user_config)
   extend_config_values(extension_config)
+
+  _G._TelescopeMonaConfig = M.values
 
   return M
 end
