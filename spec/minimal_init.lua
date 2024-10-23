@@ -24,6 +24,6 @@ end
 
 vim.cmd("runtime plugin/plenary.vim")
 
-_G.TEST = true
+_G.__MonaTest = true
 
 require("plenary.busted")

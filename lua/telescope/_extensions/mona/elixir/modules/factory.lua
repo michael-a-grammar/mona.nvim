@@ -10,7 +10,7 @@ local function make(directory_name, tests, opts)
 
   local utils = require("telescope._extensions.mona.utils")
 
-  local directories = require("mona.directories")
+  local directories = require("mona.directories")()
 
   local directory_fn = directories[directory_name]
 

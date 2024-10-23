@@ -3,7 +3,7 @@ local M = {}
 local mt = {
   __call = function(_)
     return {
-      directories = require("mona.directories")(),
+      directories = require("mona.directories")()(),
       files = require("mona.files")(),
       mona = require("mona"),
 

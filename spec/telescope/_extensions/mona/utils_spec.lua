@@ -9,14 +9,14 @@ describe("telescope._extensions.mona.utils", function()
         assert.same("Hello world", result)
       end)
 
-      it("should capitalise a string containing a unicode character", function()
+      it("should capitalise a string containing a unicode icon", function()
         local result = utils.string.capitalise("Hello  world")
 
         assert.same("Hello  world", result)
       end)
 
       it(
-        "should not capitalise a string starting with a unicode character",
+        "should not capitalise a string starting with a unicode icon",
         function()
           local result = utils.string.capitalise(" hello world")
 

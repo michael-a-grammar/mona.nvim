@@ -2,10 +2,9 @@ local M = {}
 
 local mt = {
   __call = function()
-    local icons = require("mona.config.icons")
-
     return {
       enable_icons = true,
+      log_level = vim.log.levels.WARN,
 
       elixir = {
         module = {
@@ -20,10 +19,7 @@ local mt = {
         grug_far = false,
       },
 
-      icons = {
-        elixir = icons.elixir,
-        mona = icons.mona,
-      },
+      icons = require("mona.config.icons")(),
     }
   end,
 }
