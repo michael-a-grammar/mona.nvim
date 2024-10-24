@@ -11,7 +11,9 @@ local bufferline_extension =
 local function make_bufferline_group(group_name, defaults)
   return vim.tbl_deep_extend("keep", defaults, {
     auto_close = true,
+
     icon = mona_icon and string.format(" %s ", mona_icon) or "",
+
     name = elixir_icon and string.format("%s %s", elixir_icon, group_name)
       or group_name,
   })
@@ -27,6 +29,22 @@ M.groups = bufferline_extension("groups", function()
     end
 
     opts = vim.tbl_deep_extend("force", opts or {}, {
+      mix = make_bufferline_group("Mix", {
+        priority = increment_priority(),
+
+        matcher = function(buf)
+          return buf.name:match("mix%.exs$")
+        end,
+      }),
+
+      tests = make_bufferline_group("Tests", {
+        priority = increment_priority(),
+
+        matcher = function(buf)
+          return buf.name:match("%_test%.exs$")
+        end,
+      }),
+
       config = make_bufferline_group("Config", {
         priority = increment_priority(),
 
@@ -35,27 +53,15 @@ M.groups = bufferline_extension("groups", function()
         end,
       }),
 
-      mix = make_bufferline_group("Mix", {
-        priority = increment_priority(),
-
-        matcher = function(buf)
-          return buf.name:match("mix%.exs")
-        end,
-      }),
-
-      tests = make_bufferline_group("Tests", {
-        priority = increment_priority(),
-
-        matcher = function(buf)
-          return buf.name:match("_test%.exs")
-        end,
-      }),
-
       elixir = make_bufferline_group("Elixir", {
         priority = increment_priority(),
 
         matcher = function(buf)
-          return buf.name:match("%.ex$") or buf.name:match("%.exs$")
+          return buf.name:match("%.ex$")
+            or buf.name:match("%.exs$")
+              and not buf.name:match("mix%.exs$")
+              and not buf.name:match("%_test%.exs$")
+              and not buf.path:match("/config/")
         end,
       }),
     })
