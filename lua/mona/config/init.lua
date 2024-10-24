@@ -28,8 +28,7 @@ function M.log_level_value(log_level_name)
 
   for log_level, log_level_value in pairs(vim.log.levels) do
     if
-      log_level_value == config_log_level_value
-      or log_level_name == log_level
+      log_level_value == config_log_level_value or log_level_name == log_level
     then
       return log_level_value
     end
